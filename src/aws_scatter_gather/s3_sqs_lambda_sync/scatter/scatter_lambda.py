@@ -23,6 +23,8 @@ def __get_s3_object_from(event) -> Optional[Tuple]:
     if len(records) > 1:
         raise ValueError("Only single document processing supported.")
     event = json.loads(records[0]["body"])
+    if event.get("Event", None) == "s3:TestEvent":
+        return None
     records = event["Records"]
     if len(records) > 1:
         raise ValueError("Only single document processing supported.")
@@ -44,7 +46,7 @@ def __write_tasks_and_send_messages(batch_id, records):
 
 
 def handle_event(event, lambda_context):
-    logger.info("Event: {}".format(json.dumps(event,indent=2)))
+    logger.info("Event: {}".format(json.dumps(event, indent=2)))
     s3_object = __get_s3_object_from(event)
     if s3_object is None:
         return

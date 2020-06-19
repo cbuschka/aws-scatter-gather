@@ -25,6 +25,8 @@ def __get_s3_object_from(event) -> Optional[Tuple]:
     if len(records) > 1:
         raise ValueError("Only single document processing supported.")
     event = json.loads(records[0]["body"])
+    if event.get("Event", None) == "s3:TestEvent":
+        return None
     records = event["Records"]
     if len(records) > 1:
         raise ValueError("Only single document processing supported.")
