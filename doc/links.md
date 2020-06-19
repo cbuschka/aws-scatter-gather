@@ -20,5 +20,8 @@
 * https://www.lastweekinaws.com/blog/s3-is-faster-doesnt-do-it-justice/
 * https://jayendrapatil.com/aws-s3-best-practices/
 
+## packaging boto3
+* https://www.serverlessops.io/blog/aws-lambda-and-python-boto3-bundling
+
 ## enterprise support
 * https://www.lastweekinaws.com/blog/how-to-properly-engage-with-aws-enterprise-support/
