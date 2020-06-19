@@ -1,0 +1,33 @@
+version: '3.2'
+services:
+    localstack:
+        image: localstack/localstack:0.11.2
+        container_name: localstack
+        ports:
+            - '4566:4566' # all
+            - '4572:4572' # s3 for host based bucket access
+            # - '4563-4599:4563-4599'
+            # - '8055:8080'
+        environment:
+            - DEFAULT_REGION=eu-central-1
+            - LAMBDA_EXECUTOR=docker-reuse
+            - LAMBDA_REMOTE_DOCKER=true
+            - LAMBDA_REMOVE_CONTAINERS=true
+            - SERVICES=s3,sqs,lambda,dynamodb,iam,kinesis
+            - DEBUG=1
+            - DATA_DIR=/tmp/localstack/data
+            - DOCKER_HOST=unix:///var/run/docker.sock
+            - LOCALSTACK_HOSTNAME=localstack
+        volumes:
+            # - './.localstack-data:/tmp/localstack'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        networks:
+            default:
+                aliases:
+                    - localstack
+
+networks:
+    default:
+        ipam:
+            config:
+                -   subnet: 172.16.238.0/24
