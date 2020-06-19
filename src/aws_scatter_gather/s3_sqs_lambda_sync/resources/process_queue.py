@@ -1,6 +1,6 @@
 import os
 
-import aws_scatter_gather.util.aws as aws
+from aws_scatter_gather.util import aws
 
 SCOPE = os.environ.get("SCOPE", "")
 

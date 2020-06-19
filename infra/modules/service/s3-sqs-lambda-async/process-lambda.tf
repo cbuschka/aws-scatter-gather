@@ -17,7 +17,7 @@ resource "aws_lambda_function" "process_lambda" {
   filename = var.process_lambda_source
   function_name = "${var.scope}${var.variant}-process"
   role = aws_iam_role.process_lambda_role.arn
-  handler = "aws_scatter_gather/s3_sqs_lambda_sync/process/process_lambda.handle_event"
+  handler = "aws_scatter_gather/s3_sqs_lambda_async/process/process_lambda.handle_event"
   runtime = "python3.8"
   memory_size = 512
   timeout = 60

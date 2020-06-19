@@ -17,7 +17,7 @@ resource "aws_lambda_function" "gather_lambda" {
   filename = var.gather_lambda_source
   function_name = "${var.scope}${var.variant}-gather"
   role = aws_iam_role.gather_lambda_role.arn
-  handler = "aws_scatter_gather/s3_sqs_lambda_sync/gather/gather_lambda.handle_event"
+  handler = "aws_scatter_gather/s3_sqs_lambda_async/gather/gather_lambda.handle_event"
   runtime = "python3.8"
   memory_size = 3008
   timeout = 900

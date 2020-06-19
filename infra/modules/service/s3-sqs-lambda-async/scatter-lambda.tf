@@ -17,7 +17,7 @@ resource "aws_lambda_function" "scatter_lambda" {
   filename = var.scatter_lambda_source
   function_name = "${var.scope}${var.variant}-scatter"
   role = aws_iam_role.scatter_lambda_role.arn
-  handler = "aws_scatter_gather/s3_sqs_lambda_sync/scatter/scatter_lambda.handle_event"
+  handler = "aws_scatter_gather/s3_sqs_lambda_async/scatter/scatter_lambda.handle_event"
   runtime = "python3.8"
   memory_size = 3008
   timeout = 900

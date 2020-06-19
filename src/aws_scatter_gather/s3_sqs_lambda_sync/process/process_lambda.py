@@ -8,6 +8,7 @@ logger.configure(name=__name__)
 
 
 def handle_event(event, lambda_context):
+    logger.info("Event: {}".format(json.dumps(event,indent=2)))
     records = event["Records"]
     for record in records:
         record = json.loads(record["body"])

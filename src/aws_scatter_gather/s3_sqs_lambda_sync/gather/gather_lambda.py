@@ -17,6 +17,7 @@ def __read_task_results(batch_id, count):
 
 
 def handle_event(event, lambda_context):
+    logger.info("Event: {}".format(json.dumps(event,indent=2)))
     records = event["Records"]
     for record in records:
         record = json.loads(record["body"])

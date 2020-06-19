@@ -4,3 +4,10 @@ module "s3-sqs-lambda-sync" {
   commitish = var.commitish
   env = var.env
 }
+
+module "s3-sqs-lambda-async" {
+  source = "./s3-sqs-lambda-async"
+  scope = var.scope
+  commitish = var.commitish
+  env = var.env
+}

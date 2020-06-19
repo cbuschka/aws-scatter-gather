@@ -133,10 +133,13 @@ report:	install_requirements
 
 tail_cloudwatch:	init
 	# https://github.com/lucagrulla/cw/releases/download/v3.3.0/cw_3.3.0_Linux_x86_64.tar.gz
-	@cw ${ENDPOINT_ARGS} tail --follow --timestamp --event-id --local \
-		/aws/lambda/${SCOPE}scatter: \
-		/aws/lambda/${SCOPE}process: \
-		/aws/lambda/${SCOPE}gather:
+	@cw ${ENDPOINT_ARGS} tail --follow --start=3m --timestamp --event-id --local \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-sync-scatter: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-sync-process: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-sync-gather: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-scatter: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-process: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-gather:
 
 start_localstack:	__is_devel
 	@docker-compose rm -f

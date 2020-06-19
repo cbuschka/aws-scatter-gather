@@ -9,6 +9,7 @@
 * use async io
 * create batches
 * pros/cons
+* watchdog messages
 
 ## More variants
 * s3 sqs lambda dynamodb
