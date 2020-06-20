@@ -4,7 +4,7 @@ resource "aws_sqs_queue" "gather_dlq" {
   fifo_queue = true
 
   tags = {
-    variant = "s3_sqs_lambda_sync"
+    variant = "${var.scope}${var.variant}"
   }
 }
 
