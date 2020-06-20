@@ -1,5 +1,17 @@
 # Links
 
+## asyncio in python
+* https://realpython.com/async-io-python
+* https://stackoverflow.com/questions/50190480/limit-number-of-concurrent-requests-aiohttp
+
+## aws lambda asyncio
+* https://read.acloud.guru/save-time-and-money-with-aws-lambda-using-asynchronous-programming-3548ea65f751
+* https://stackoverflow.com/questions/43600676/what-is-the-correct-way-to-write-asyncio-code-for-use-with-aws-lambda
+* https://www.trek10.com/blog/aws-lambda-python-asyncio
+
+## aws lambda destinations
+* https://www.trek10.com/blog/lambda-destinations-what-we-learned-the-hard-way
+
 ## misc
 * https://aws.amazon.com/blogs/aws/new-amazon-s3-batch-operations/
 * how to choose cpu/memory - https://lumigo.io/aws-lambda-performance-optimization/
@@ -19,6 +31,7 @@
 * https://www.infoq.com/news/2018/10/amazon-s3-performance-increase/
 * https://www.lastweekinaws.com/blog/s3-is-faster-doesnt-do-it-justice/
 * https://jayendrapatil.com/aws-s3-best-practices/
+* https://www.trek10.com/blog/leveraging-ulids-to-create-order-in-unordered-datastores
 
 ## packaging boto3
 * https://www.serverlessops.io/blog/aws-lambda-and-python-boto3-bundling
