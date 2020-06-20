@@ -23,3 +23,10 @@ class Trace(object):
         else:
             logger.info("\"%s\" FAILED. Duration %d millis.", str(self.message), self.duration_milis,
                         exc_info=True)
+
+    async def __aenter__(self):
+        self.__enter__()
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, tb):
+        self.__exit__(exc_type, exc_value, tb)

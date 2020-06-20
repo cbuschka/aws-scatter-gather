@@ -38,8 +38,8 @@ class SqsBatchSender(object):
 
 
 class AsyncSqsBatchSender(object):
-    def __init__(self, sqs_client_factory, queue_name, flush_amount=10):
-        self._client_factory = sqs_client_factory
+    def __init__(self, sqs_client, queue_name, flush_amount=10):
+        self._sqs_client = sqs_client
         self._queue_name = queue_name
         self._queue_url = None
         self._flush_amount = flush_amount or 10
@@ -57,17 +57,16 @@ class AsyncSqsBatchSender(object):
             await self._flush()
 
     async def _flush(self):
-        async with self._client_factory() as _client:
-            if self._queue_url is None:
-                response = await _client.get_queue_url(QueueName=self._queue_name)
-                self._queue_url = response["QueueUrl"]
+        if self._queue_url is None:
+            response = await self._sqs_client.get_queue_url(QueueName=self._queue_name)
+            self._queue_url = response["QueueUrl"]
 
-            messages_to_send = self._messages_buffer[:self._flush_amount]
-            self._messages_buffer = self._messages_buffer[self._flush_amount:]
-            response = await _client.send_message_batch(QueueUrl=self._queue_url, Entries=messages_to_send)
-            failed_ids = [entry["Id"] for entry in response.get("Failed", [])]
-            failed_messages = [m for m in messages_to_send if m["Id"] in failed_ids]
-            self._messages_buffer.extend(failed_messages)
+        messages_to_send = self._messages_buffer[:self._flush_amount]
+        self._messages_buffer = self._messages_buffer[self._flush_amount:]
+        response = await self._sqs_client.send_message_batch(QueueUrl=self._queue_url, Entries=messages_to_send)
+        failed_ids = [entry["Id"] for entry in response.get("Failed", [])]
+        failed_messages = [m for m in messages_to_send if m["Id"] in failed_ids]
+        self._messages_buffer.extend(failed_messages)
 
     async def __aenter__(self):
         return self
