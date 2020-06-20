@@ -2,8 +2,7 @@ import logging
 from collections import namedtuple
 from uuid import uuid4
 
-from aws_scatter_gather.benchmark import s3_sqs_lambda_async
-from aws_scatter_gather.benchmark import s3_sqs_lambda_sync
+from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
 from aws_scatter_gather.util.trace import trace
 
 logger = logging.getLogger(__name__)
@@ -11,9 +10,10 @@ logger.setLevel(logging.INFO)
 
 Test = namedtuple("Test", ["count", "variants"])
 TESTS = [
-    Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async]),
-    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async]),
-    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async])
+    Test(11, [s3_sqs_lambda_async_chunked]),
+    # Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    # Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    # Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked])
     # Test(10001, [s3_sqs_lambda_async]),
     # Test(100001, [s3_sqs_lambda_async])
 ]

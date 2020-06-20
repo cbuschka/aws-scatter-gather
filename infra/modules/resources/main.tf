@@ -11,3 +11,10 @@ module "s3-sqs-lambda-async" {
   commitish = var.commitish
   env = var.env
 }
+
+module "s3-sqs-lambda-async-chunked" {
+  source = "./s3-sqs-lambda-async-chunked"
+  scope = var.scope
+  commitish = var.commitish
+  env = var.env
+}
