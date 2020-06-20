@@ -38,7 +38,7 @@ def __collect_measurements():
 
 def summarize():
     batches = __collect_measurements()
-    csvout = csv.writer(sys.stdout, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    csvout = csv.writer(sys.stdout, dialect='excel', quoting=csv.QUOTE_MINIMAL)
     keys = ["commitish", "variant", "env", "scope", "batchId", "count", "startTime", "endTime", "durationInSeconds",
             "relativeDurationInSeconds", "outcome"]
     csvout.writerow(keys)
