@@ -31,5 +31,5 @@ def handle_event(event, lambda_context):
             status["results"] = results
             output_bucket.write_batch_output(batch_id, {"records": results})
 
-        work_bucket.delete_batch_status(batch_id)
+        #work_bucket.delete_batch_status(batch_id)
         record_batch_finished(batch_id)

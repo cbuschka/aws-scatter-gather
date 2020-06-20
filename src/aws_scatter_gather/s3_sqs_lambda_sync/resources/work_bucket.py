@@ -29,10 +29,10 @@ def write_batch_status(batch_id, record_count):
         }))
 
 
-def delete_batch_status(batch_id):
-    with trace("Deleting status for {}", batch_id):
-        object_key = "{}/status.json".format(batch_id)
-        s3_resource.Object(WORK_BUCKET, object_key).delete()
+#def delete_batch_status(batch_id):
+#    with trace("Deleting status for {}", batch_id):
+#        object_key = "{}/status.json".format(batch_id)
+#        s3_resource.Object(WORK_BUCKET, object_key).delete()
 
 
 def write_pending_task(batch_id, index, request):
@@ -66,10 +66,10 @@ def read_task_result(batch_id, index):
         return json_doc
 
 
-def delete_task_result(batch_id, index):
-    object_key = "{}/done/{}.json".format(batch_id, index)
-    with trace("Deleting {}/{} from s3", WORK_BUCKET, object_key):
-        s3_resource.Object(WORK_BUCKET, object_key).delete()
+#def delete_task_result(batch_id, index):
+#    object_key = "{}/done/{}.json".format(batch_id, index)
+#    with trace("Deleting {}/{} from s3", WORK_BUCKET, object_key):
+#        s3_resource.Object(WORK_BUCKET, object_key).delete()
 
 
 def read_batch_status(batch_id):
