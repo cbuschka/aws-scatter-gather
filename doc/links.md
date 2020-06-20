@@ -1,5 +1,8 @@
 # Links
 
+## python
+* https://docs.quantifiedcode.com/python-anti-patterns
+
 ## asyncio in python
 * https://realpython.com/async-io-python
 * https://stackoverflow.com/questions/50190480/limit-number-of-concurrent-requests-aiohttp
