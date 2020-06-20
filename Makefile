@@ -16,7 +16,7 @@ BUILD_TIMESTAMP := $(shell date --iso-8601=seconds)
 
 usage:
 	@echo && \
-	echo "make ENV=devel|nonlive [SCOPE=yourname-] [goal]" && \
+	echo "make ENV=devel|aws [SCOPE=yourname-] [goal]" && \
 	echo && \
 	echo "Goals:" && \
 	echo " all, build, package, test, benchmark, clean" && \
@@ -113,7 +113,7 @@ benchmark:	install_requirements
 		devel) \
 			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py; \
 			;; \
-		nonlive|*) \
+		aws|*) \
 			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py; \
 			;; \
 	esac
@@ -126,7 +126,7 @@ report:	install_requirements
 		devel) \
 			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py; \
 			;; \
-		nonlive|*) \
+		aws|*) \
 			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py; \
 			;; \
 	esac

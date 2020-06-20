@@ -15,7 +15,7 @@ Implement batch processing on AWS.
 * [tfvm](https://github.com/cbuschka/tfvm) or terraform
 * [cw >= v3.3.0](https://github.com/lucagrulla/cw)
 
-## Usage
+## Usage locally
 
 ### Start localstack, deploy and run benchmark
 ```
@@ -27,10 +27,25 @@ make clean start_localstack deploy benchmark report
 make stop_localstack clean
 ```
 
+## Usage on aws
+
+All resources will be prefixed with your current ${USER}-. Pass
+SCOPE=mycustomprefix- to make to override this default.
+
+### Build, package, deploy run benchmark, report on measurements
+```
+make ENV=aws clean deploy_resources deploy_service benchmark report
+```
+
+### Undeploy
+```
+make ENV=aws destroy
+```
+
 ### Variants
 The task has been implemented in various variants:
-* s3-sqs-lambda-sync
-* s3-sqs-lambda-async (to come)
+* s3-sqs-lambda-sync (with boto3 blocking io)
+* s3-sqs-lambda-async (with aioboto3 async io)
 ![s3-sqs-lambda](./doc/s3_sqs_lambda.png)
 * s3-sqs-lambda-dynamodb (to come)
 * s3-sqs-sfn (to come)
