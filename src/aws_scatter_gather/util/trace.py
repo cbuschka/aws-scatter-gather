@@ -13,15 +13,16 @@ class Trace(object):
 
     def __enter__(self):
         self.start = time.time_ns()
+        logger.info("START \"%s\"...", str(self.message))
         return self
 
     def __exit__(self, exc_type, exc_value, tb):
         self.end = time.time_ns()
         self.duration_milis = int((self.end - self.start) / 1000 / 1000)
         if exc_type is None:
-            logger.info("\"%s\" SUCCESS. Duration %d millis.", str(self.message), self.duration_milis)
+            logger.info("SUCCESS of \"%s\". Duration %d millis.", str(self.message), self.duration_milis)
         else:
-            logger.info("\"%s\" FAILED. Duration %d millis.", str(self.message), self.duration_milis,
+            logger.info("FAILURE of \"%s\". Duration %d millis.", str(self.message), self.duration_milis,
                         exc_info=True)
 
     async def __aenter__(self):
