@@ -1,7 +1,7 @@
 import logging
-from time import sleep
 
 from botocore.exceptions import ClientError
+from time import sleep
 
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import input_bucket, output_bucket
 
@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 
 ROUNDS = 1000
 SLEEP_SECS = 3
+
+
+def name():
+    return "s3-sqs-lambda-sync"
 
 
 def run(batch_id, batch):

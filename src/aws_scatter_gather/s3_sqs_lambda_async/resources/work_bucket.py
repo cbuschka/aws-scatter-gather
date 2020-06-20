@@ -38,13 +38,13 @@ async def exists_pending_task(batch_id, s3_resource):
             return False
 
 
-async def write_pending_task(batch_id, index, request, s3_resource):
+async def write_pending_task(batch_id, index, request, batch_writer):
     object_key = "{}/pending/{}.json".format(batch_id, index)
     async with trace("Write pending task {}/{} to s3", WORK_BUCKET, object_key):
-        s3_object = await s3_resource.Object(WORK_BUCKET, object_key)
-        await s3_object.put(ACL='private', Body=json.dumps({"batchId": batch_id,
-                                                            "index": index,
-                                                            "request": request}))
+        await batch_writer.put(Bucket=WORK_BUCKET, Key=object_key,
+                               ACL='private', Body=json.dumps({"batchId": batch_id,
+                                                               "index": index,
+                                                               "request": request}))
 
 
 async def write_task_result(batch_id, index, request, result, s3_resource):

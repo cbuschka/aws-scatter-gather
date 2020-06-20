@@ -13,6 +13,10 @@ ROUNDS = 1000
 SLEEP_SECS = 3
 
 
+def name():
+    return "s3-sqs-lambda-async"
+
+
 @async_to_sync
 async def run(batch_id, batch):
     async with aioaws.resource("s3") as s3_resource:

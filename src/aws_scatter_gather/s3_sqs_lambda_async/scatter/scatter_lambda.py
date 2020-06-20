@@ -1,4 +1,3 @@
-import asyncio
 import json
 from typing import Tuple, Optional
 from uuid import uuid4
@@ -8,6 +7,7 @@ from aws_scatter_gather.measurement.measurement_recorder import record_batch_sta
 from aws_scatter_gather.s3_sqs_lambda_async.resources import input_bucket, process_queue, work_bucket
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util.async_util import async_to_sync
+from aws_scatter_gather.util.s3_batch_writer import S3BatchWriter
 from aws_scatter_gather.util.trace import trace
 
 logger.configure(name=__name__)
@@ -41,10 +41,9 @@ def __get_s3_object_key_from(event) -> Optional[Tuple]:
 
 async def __write_tasks_and_send_messages(batch_id, records, s3_resource, sqs_client):
     async with trace("Writing/sending {} tasks for batch {}", len(records), batch_id):
-        futures = []
-        for index, record in enumerate(records, start=0):
-            futures.append(work_bucket.write_pending_task(batch_id, index, record, s3_resource))
-        await asyncio.gather(*futures)
+        async with S3BatchWriter(s3_resource=s3_resource, flush_amount=100) as batch_writer:
+            for index, record in enumerate(records, start=0):
+                await work_bucket.write_pending_task(batch_id, index, record, batch_writer)
 
         async with process_queue.new_batch_sender(sqs_client) as batch_sender:
             for index, record in enumerate(records, start=0):
