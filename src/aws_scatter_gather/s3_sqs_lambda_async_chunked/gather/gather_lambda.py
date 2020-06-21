@@ -5,7 +5,7 @@ import json
 
 from math import ceil
 
-from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished
+from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished, record_gather_started
 from aws_scatter_gather.s3_sqs_lambda_async_chunked.resources import work_bucket, output_bucket
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import logger
@@ -29,6 +29,7 @@ async def handle_event(event, lambda_context):
 
 async def __gather(record, s3_resource, s3_client):
     batch_id = record["batchId"]
+    record_gather_started(batch_id)
     async with trace("Gathering results for batch batch_id={}", batch_id):
         status = await work_bucket.read_batch_status(batch_id, s3_resource)
         chunk_count = ceil(status["taskCount"] / status["chunkSize"])

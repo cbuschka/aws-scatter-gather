@@ -21,10 +21,20 @@ def __write(data):
     measurement_events_table.write_measurement(data)
 
 
-def record_batch_started(batch_id, count):
+def record_batch_started(batch_id):
     __write({"type": "BATCH_STARTED",
+             "batchId": batch_id})
+
+
+def record_scatter_finished(batch_id, count):
+    __write({"type": "SCATTER_FINISHED",
              "batchId": batch_id,
              "count": count})
+
+
+def record_gather_started(batch_id):
+    __write({"type": "GATHER_STARTED",
+             "batchId": batch_id})
 
 
 def record_batch_finished(batch_id):

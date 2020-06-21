@@ -3,7 +3,7 @@ from typing import Tuple, Optional
 from uuid import uuid4
 
 import aws_scatter_gather.util.logger as logger
-from aws_scatter_gather.measurement.measurement_recorder import record_batch_started
+from aws_scatter_gather.measurement.measurement_recorder import record_batch_started, record_scatter_finished
 from aws_scatter_gather.s3_sqs_lambda_async_chunked.resources import input_bucket, process_queue, work_bucket
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util.async_util import async_to_sync
@@ -66,7 +66,8 @@ async def handle_event(event, lambda_context):
         async with aioaws.resource("s3") as s3_resource, aioaws.client("sqs") as sqs_client:
             batch_doc = await input_bucket.read_batch_input(s3_object[0], s3_object[1], s3_resource)
             records = batch_doc.get("records", [])
-            record_batch_started(batch_id, len(records))
+            record_batch_started(batch_id)
             await work_bucket.write_batch_status(batch_id, len(records), CHUNK_SIZE, s3_resource)
             await __write_chunks_and_send_messages(batch_id, records, s3_resource, sqs_client)
             await input_bucket.delete_batch_input(s3_object[0], s3_object[1], s3_resource)
+    record_scatter_finished(batch_id, len(records))

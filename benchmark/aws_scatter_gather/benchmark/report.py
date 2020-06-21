@@ -15,21 +15,39 @@ def __collect_measurements():
         if "count" in record:
             batch["count"] = record["count"]
         if record["type"] == "BATCH_STARTED":
-            batch["startTime"] = timestamp
+            batch["batchStartTime"] = timestamp
+        if record["type"] == "GATHER_STARTED":
+            batch["gatherStartTime"] = timestamp
+        if record["type"] == "SCATTER_FINISHED":
+            batch["scatterEndTime"] = timestamp
         if record["type"] == "BATCH_FINISHED":
-            batch["endTime"] = timestamp
+            batch["batchEndTime"] = timestamp
         for key in ["variant", "count", "scope", "commitish", "env"]:
             if key in record:
                 batch[key] = record[key]
-        if "startTime" in batch and "endTime" in batch and "count" in batch:
-            start_time = jsontime.parse(batch["startTime"])
-            end_time = jsontime.parse(batch["endTime"])
+        if "batchStartTime" in batch and "batchEndTime" in batch and "count" in batch:
+            start_time = jsontime.parse(batch["batchStartTime"])
+            end_time = jsontime.parse(batch["batchEndTime"])
             duration_in_secs = (end_time - start_time).total_seconds()
-            batch["durationInSeconds"] = str(duration_in_secs)
-            batch["durationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
+            batch["batchDurationInSeconds"] = str(duration_in_secs)
+            batch["batchDurationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
             batch["outcome"] = "success"
         else:
             batch["outcome"] = "failure"
+
+        if "batchStartTime" in batch and "scatterEndTime" in batch and "count" in batch:
+            start_time = jsontime.parse(batch["batchStartTime"])
+            scatter_end_time = jsontime.parse(batch["scatterEndTime"])
+            scatter_duration_in_secs = (scatter_end_time - start_time).total_seconds()
+            batch["scatterDurationInSeconds"] = str(scatter_duration_in_secs)
+            batch["scatterDurationPerRecordInSeconds"] = str(round(scatter_duration_in_secs / int(batch["count"]), 4))
+
+        if "batchEndTime" in batch and "gatherStartTime" in batch and "count" in batch:
+            start_time = jsontime.parse(batch["gatherStartTime"])
+            end_time = jsontime.parse(batch["batchEndTime"])
+            duration_in_secs = (end_time - start_time).total_seconds()
+            batch["gatherDurationInSeconds"] = str(duration_in_secs)
+            batch["gatherDurationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
 
         batches[batch_id] = batch
 
@@ -40,8 +58,12 @@ def summarize():
     batches = __collect_measurements()
     csvout = csv.writer(sys.stdout, delimiter=',',
                         quotechar='"', quoting=csv.QUOTE_ALL)
-    keys = ["commitish", "variant", "env", "scope", "batchId", "count", "startTime", "endTime", "durationInSeconds",
-            "durationPerRecordInSeconds", "outcome"]
+    keys = ["commitish", "variant", "env", "scope", "batchId",
+            "count",
+            "scatterDurationInSeconds", "scatterDurationPerRecordInSeconds",
+            "gatherDurationInSeconds", "gatherDurationPerRecordInSeconds",
+            "batchStartTime", "batchEndTime", "batchDurationInSeconds", "batchDurationPerRecordInSeconds",
+            "outcome"]
     csvout.writerow(keys)
     for key, batch in batches.items():
         csvout.writerow([batch.get(key, "") for key in keys])
