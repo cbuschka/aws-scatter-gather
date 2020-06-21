@@ -1,9 +1,9 @@
 # Scatter gather with AWS lambda
 
 ## The Task
-Implement batch processing on AWS.
+Implement batch processing on AWS:
 
-* Receive a single batch of tasks
+* Receive a single batch of tasks via s3 upload
 * Process tasks as parallel as possible
 * Write a result summary into s3 when all tasks processed
 
