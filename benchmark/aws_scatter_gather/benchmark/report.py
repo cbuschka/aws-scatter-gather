@@ -26,7 +26,7 @@ def __collect_measurements():
             end_time = jsontime.parse(batch["endTime"])
             duration_in_secs = (end_time - start_time).total_seconds()
             batch["durationInSeconds"] = str(duration_in_secs)
-            batch["durationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 2))
+            batch["durationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
             batch["outcome"] = "success"
         else:
             batch["outcome"] = "failure"
@@ -38,7 +38,7 @@ def __collect_measurements():
 
 def summarize():
     batches = __collect_measurements()
-    csvout = csv.writer(sys.stdout, delimiter='\t',
+    csvout = csv.writer(sys.stdout, delimiter=',',
                         quotechar='"', quoting=csv.QUOTE_ALL)
     keys = ["commitish", "variant", "env", "scope", "batchId", "count", "startTime", "endTime", "durationInSeconds",
             "durationPerRecordInSeconds", "outcome"]
