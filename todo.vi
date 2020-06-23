@@ -1,11 +1,11 @@
-input is file of records
+* input is file of records
 fehlerbehandlung of records
 dockerize wg python3.8
 grafik verbessern (s3 input event)
 warum s3 event zu sqs
 splitter holt jetzt 
 pending
-challenge when done
+* challenge when done
 warum message und s3 eintrag, todolist
 record id batch_id/pos
 input/work/output
