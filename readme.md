@@ -1,11 +1,12 @@
 # Scatter gather with AWS lambda
 
-## The Task
+## The challenge
 Implement batch processing on AWS:
 
-* Receive a single batch of tasks via s3 upload
-* Process tasks as parallel as possible
-* Write a result summary into s3 when all tasks processed
+* Receive a single file of records to be processed via s3 upload
+* Process records as parallel as possible
+* Detect when all records have been processed
+* Aggregate a result summary file in s3
 
 ## Prerequisites
 * python 3.8
