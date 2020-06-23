@@ -161,7 +161,7 @@ tail_localstack:	init
 
 clean:	init
 	@echo "Cleaning up..." && \
-	rm -rf ${TARGET_DIR} ${VENV_DIR} && \
+	rm -rf ${TARGET_DIR} && \
 	find . -name 'terraform.tfstate*' -print | grep devel | xargs -I FILE rm 'FILE'
 
 reset_localstack:	stop_localstack clean start_localstack
