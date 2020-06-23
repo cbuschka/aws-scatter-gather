@@ -1,6 +1,7 @@
 import logging
 from collections import namedtuple
 from uuid import uuid4
+import sys
 
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
