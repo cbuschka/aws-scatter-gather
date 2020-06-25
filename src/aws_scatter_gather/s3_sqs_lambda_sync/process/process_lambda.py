@@ -1,7 +1,9 @@
 import json
 
+from aws_scatter_gather.s3_sqs_lambda_sync.resources import items_table
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import work_bucket, gather_queue
 from aws_scatter_gather.util import logger
+from aws_scatter_gather.util.jsontime import now_epoch_millis
 from aws_scatter_gather.util.trace import trace
 
 logger.configure(name=__name__)
@@ -10,13 +12,16 @@ logger.configure(name=__name__)
 def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
     records = event["Records"]
+    batch_writer = items_table.new_batch_writer()
     for record in records:
         record = json.loads(record["body"])
         with trace("Processing {}", json.dumps(record)):
             index = record["index"]
             batch_id = record["batchId"]
             request = record["request"]
-
+            items_table.put_item({"itemNo": str(index),
+                                  "updateTimestamp": now_epoch_millis()},
+                                 batch_writer)
             work_bucket.write_task_result(batch_id, index, request, {"success": True,
                                                                      "message": "Faked success for {}".format(
                                                                          json.dumps(request.get("info", "noinfo")))})

@@ -1,6 +1,12 @@
 import datetime
 
+import time
+
 _JSON_TS_FORMATS = ["%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%S"]
+
+
+def now_epoch_millis() -> int:
+    return int(round(time.time() * 1000))
 
 
 def now() -> str:

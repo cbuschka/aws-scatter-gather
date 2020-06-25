@@ -4,7 +4,7 @@
 Implement batch processing on AWS:
 
 * Receive a single file of records to be processed via s3 upload
-* Process records as parallel as possible
+* Process records and update items in data store as parallel as possible
 * Detect when all records have been processed
 * Aggregate a result summary file in s3
 

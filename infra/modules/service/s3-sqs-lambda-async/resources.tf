@@ -19,3 +19,6 @@ data "aws_sqs_queue" "process" {
 data "aws_sqs_queue" "scatter" {
   name = "${var.scope}${var.variant}-scatter-queue"
 }
+data "aws_dynamodb_table" "items_table" {
+  name = "${var.scope}${var.variant}-items"
+}

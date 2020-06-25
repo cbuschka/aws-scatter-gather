@@ -10,7 +10,7 @@
 * create chunks of batches (DONE)
 * pros/cons
 * watchdog messages
-* introduce real operations into process lambda
+* introduce real operations into process lambda (DONE)
 * time scatter, process, gather seperately (DONE)
 * consolidate terraform code for s3-sqs-lambda variants
 * add bucket cleanup
@@ -18,3 +18,4 @@
 ## More variants
 * s3 sqs lambda dynamodb
 * s3 sqs lambda stepfunctions
+* use spark?
