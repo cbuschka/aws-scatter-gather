@@ -14,11 +14,11 @@ logger.setLevel(logging.INFO)
 Test = namedtuple("Test", ["count", "variants"])
 TESTS = [
     Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(100001, [s3_sqs_lambda_async_chunked]),
-    Test(1000001, [s3_sqs_lambda_async_chunked]),
+    #Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    #Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    #Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    #Test(100001, [s3_sqs_lambda_async_chunked]),
+    #Test(1000001, [s3_sqs_lambda_async_chunked]),
 ]
 
 

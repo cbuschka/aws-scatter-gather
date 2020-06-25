@@ -9,7 +9,12 @@ variable "scope" {
 }
 
 variable "variant" {
-  default = "s3-sqs-lambda-async-chunked"
+  default = ""
+  type = string
+}
+
+variable "package_base" {
+  default = ""
   type = string
 }
 
