@@ -14,6 +14,7 @@
 * time scatter, process, gather seperately (DONE)
 * consolidate terraform code for s3-sqs-lambda variants
 * add bucket cleanup
+* elasticache instead of dynamodb
 
 ## More variants
 * s3 sqs lambda dynamodb
