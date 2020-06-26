@@ -1,6 +1,8 @@
 import logging
 from collections import namedtuple
+from random import randint
 from uuid import uuid4
+
 import sys
 
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async
@@ -14,18 +16,18 @@ logger.setLevel(logging.INFO)
 Test = namedtuple("Test", ["count", "variants"])
 TESTS = [
     Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    #Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    #Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    #Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    #Test(100001, [s3_sqs_lambda_async_chunked]),
-    #Test(1000001, [s3_sqs_lambda_async_chunked]),
+    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
+    Test(100001, [s3_sqs_lambda_async_chunked]),
+    Test(1000001, [s3_sqs_lambda_async_chunked]),
 ]
 
 
 def run():
     for test in TESTS:
         logger.info("Benchmarking with {count} records.".format(count=test.count))
-        batch = {"records": [{"index": i, "info": "request#{}".format(i)} for i in range(test.count)]}
+        batch = {"records": [{"itemNo": "item#{}".format(i), "price": randint(0, 100)} for i in range(test.count)]}
 
         for variant in test.variants:
             with trace("Variant {}...", variant.name()):
