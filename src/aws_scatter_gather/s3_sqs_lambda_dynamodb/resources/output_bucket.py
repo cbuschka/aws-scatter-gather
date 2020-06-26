@@ -4,7 +4,7 @@ import os
 from aws_scatter_gather.util.trace import trace
 
 SCOPE = os.environ.get("SCOPE", "")
-OUTPUT_BUCKET = "{SCOPE}s3-sqs-lambda-async-output".format(SCOPE=SCOPE)
+OUTPUT_BUCKET = "{SCOPE}s3-sqs-lambda-dynamodb-output".format(SCOPE=SCOPE)
 
 
 async def read_batch_output(batch_id, s3_resource) -> dict:
@@ -22,3 +22,9 @@ async def write_batch_output(batch_id, output, s3_resource):
     async with trace("Writing batch output {}/{} to s3", OUTPUT_BUCKET, object_key):
         s3_object = await s3_resource.Object(OUTPUT_BUCKET, object_key)
         await s3_object.put(ACL='private', Body=json.dumps(output))
+
+
+async def upload_batch_output(batch_id, file, s3_client):
+    object_key = "{}.json".format(batch_id)
+    async with trace("Writing batch output {}/{} to s3", OUTPUT_BUCKET, object_key):
+        await s3_client.upload_fileobj(file, OUTPUT_BUCKET, object_key)

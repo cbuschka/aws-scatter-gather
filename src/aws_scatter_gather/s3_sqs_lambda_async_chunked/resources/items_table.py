@@ -16,7 +16,7 @@ async def get_item(item_no, dynamodb_resource):
 
 async def new_batch_writer(dynamodb_resource):
     table = await dynamodb_resource.Table(ITEMS_TABLE)
-    return table.batch_writer()
+    return table.batch_writer(overwrite_by_pkeys=["itemNo"])
 
 
 async def put_item(item, batch_writer):

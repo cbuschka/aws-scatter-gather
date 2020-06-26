@@ -41,3 +41,9 @@
 
 ## enterprise support
 * https://www.lastweekinaws.com/blog/how-to-properly-engage-with-aws-enterprise-support/
+
+## terraform
+* https://blog.gruntwork.io/terraform-tips-tricks-loops-if-statements-and-gotchas-f739bbae55f9
+* https://blog.gruntwork.io/5-lessons-learned-from-writing-over-300-000-lines-of-infrastructure-code-36ba7fadeac1
+
+

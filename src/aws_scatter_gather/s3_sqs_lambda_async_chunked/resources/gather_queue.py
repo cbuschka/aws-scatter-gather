@@ -1,4 +1,4 @@
-import json
+from aws_scatter_gather.util import json
 import os
 
 SCOPE = os.environ.get("SCOPE", "")

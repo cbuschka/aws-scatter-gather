@@ -4,7 +4,7 @@ import os
 from aws_scatter_gather.util.trace import trace
 
 SCOPE = os.environ.get("SCOPE", "")
-INPUT_BUCKET = "{SCOPE}s3-sqs-lambda-async-chunked-input".format(SCOPE=SCOPE)
+INPUT_BUCKET = "{SCOPE}s3-sqs-lambda-dynamodb-input".format(SCOPE=SCOPE)
 
 
 async def read_batch_input(bucket_name, object_key, s3_resource) -> dict:

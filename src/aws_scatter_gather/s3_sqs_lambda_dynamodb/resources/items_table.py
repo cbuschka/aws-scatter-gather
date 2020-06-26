@@ -4,7 +4,7 @@ from aws_scatter_gather.util.trace import trace
 
 SCOPE = os.environ.get("SCOPE", "")
 
-ITEMS_TABLE = "{SCOPE}s3-sqs-lambda-async-chunked-items".format(SCOPE=SCOPE)
+ITEMS_TABLE = "{SCOPE}s3-sqs-lambda-dynamodb-items".format(SCOPE=SCOPE)
 
 
 async def get_item(item_no, dynamodb_resource):

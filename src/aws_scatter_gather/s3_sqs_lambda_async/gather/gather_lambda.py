@@ -1,5 +1,5 @@
 import asyncio
-import json
+from aws_scatter_gather.util import json
 
 from aws_scatter_gather.common.validation import validate_processed_task
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished, record_gather_started

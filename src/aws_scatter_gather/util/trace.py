@@ -7,6 +7,14 @@ def trace(message, *args):
     return Trace(message, *args)
 
 
+def traced(f):
+    def wrapper(*args, **kwargs):
+        with trace("{} args={}, kwargs={}", f.__name__, [*args], {**kwargs}):
+            return f(*args, **kwargs)
+
+    return wrapper
+
+
 class Trace(object):
     def __init__(self, message, *args):
         self.message = message.format(*args)

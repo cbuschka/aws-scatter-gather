@@ -17,3 +17,13 @@ variable "env" {
   default = ""
   type = string
 }
+
+variable "with_work_bucket" {
+  default = true
+  type = bool
+}
+
+variable "with_batch_tables" {
+  default = false
+  type = bool
+}

@@ -71,6 +71,9 @@ package:	test
 	tar c --exclude='__pycache__' * | tar xv -C ${TARGET_DIR}/lambda/ && \
 	cd ${TARGET_DIR}/lambda && \
 	echo "{\"commitish\": \"${COMMITISH}\", \"built-at\": \"${BUILD_TIMESTAMP}\"}" > version.json && \
+	echo "Precompiling..." && \
+	python3 -m compileall . && \
+	echo "Zipping..." && \
 	zip --recurse-paths ${TARGET_DIR}/lambda.zip *
 
 deploy:	deploy_resources deploy_service
@@ -139,7 +142,10 @@ tail_cloudwatch:	init
 		/aws/lambda/${SCOPE}s3-sqs-lambda-sync-gather: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-async-scatter: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-async-process: \
-		/aws/lambda/${SCOPE}s3-sqs-lambda-async-gather:
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-gather: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-scatter: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-process: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-gather:
 
 start_localstack:	__is_devel
 	@docker-compose rm -f

@@ -18,7 +18,7 @@ def get_item(item_no):
 
 def new_batch_writer():
     table = dynamodb_resource.Table(ITEMS_TABLE)
-    return table.batch_writer()
+    return table.batch_writer(overwrite_by_pkeys=["itemNo"])
 
 
 def put_item(item, batch_writer):

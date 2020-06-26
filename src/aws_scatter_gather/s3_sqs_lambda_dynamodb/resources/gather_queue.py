@@ -3,7 +3,7 @@ import os
 
 SCOPE = os.environ.get("SCOPE", "")
 
-GATHER_QUEUE = "{SCOPE}s3-sqs-lambda-async-gather-queue.fifo".format(SCOPE=SCOPE)
+GATHER_QUEUE = "{SCOPE}s3-sqs-lambda-dynamodb-gather-queue.fifo".format(SCOPE=SCOPE)
 
 from aws_scatter_gather.util.trace import trace
 

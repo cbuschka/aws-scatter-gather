@@ -1,5 +1,5 @@
 import asyncio
-import json
+from aws_scatter_gather.util import json
 
 from aws_scatter_gather.common.validation import validate_pending_task, validate_processed_task
 from aws_scatter_gather.s3_sqs_lambda_async.resources import work_bucket, gather_queue, items_table

@@ -15,8 +15,12 @@
 * consolidate terraform code for s3-sqs-lambda variants
 * add bucket cleanup
 * elasticache instead of dynamodb
-
+* write measurements async too
+* apply xray
+* dynamid variant: dont overwrite record in dynamodb (isPending=y or not exists)
+* s3 variant: batch size lambda fixed, no chunk optimaztion
 ## More variants
 * s3 sqs lambda dynamodb
 * s3 sqs lambda stepfunctions
 * use spark?
+* kinesis varian: batch start event, records than done event

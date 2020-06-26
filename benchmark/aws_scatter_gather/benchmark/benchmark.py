@@ -7,6 +7,7 @@ import sys
 
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
+from aws_scatter_gather.benchmark import s3_sqs_lambda_dynamodb
 from aws_scatter_gather.benchmark import s3_sqs_lambda_sync
 from aws_scatter_gather.util.trace import trace
 
@@ -15,11 +16,11 @@ logger.setLevel(logging.INFO)
 
 Test = namedtuple("Test", ["count", "variants"])
 TESTS = [
-    Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked]),
-    Test(100001, [s3_sqs_lambda_async_chunked]),
+    Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
+    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
+    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
+    Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
+    Test(100001, [s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
     Test(1000001, [s3_sqs_lambda_async_chunked]),
 ]
 

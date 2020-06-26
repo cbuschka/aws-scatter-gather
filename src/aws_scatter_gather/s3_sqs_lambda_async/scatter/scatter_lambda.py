@@ -1,4 +1,4 @@
-import json
+from aws_scatter_gather.util import json
 from typing import Tuple, Optional
 from uuid import uuid4
 
