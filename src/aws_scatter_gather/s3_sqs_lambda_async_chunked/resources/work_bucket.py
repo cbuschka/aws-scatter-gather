@@ -39,13 +39,12 @@ async def exists_pending_chunk(batch_id, s3_resource):
             return False
 
 
-async def write_pending_chunk(batch_id, index, records, batch_writer):
+async def write_pending_chunk(batch_id, index, chunk, batch_writer):
     object_key = "{}/pending/{}.json".format(batch_id, index)
     async with trace("Write pending chunk {}/{} to s3", WORK_BUCKET, object_key):
         await batch_writer.put(Bucket=WORK_BUCKET, Key=object_key,
                                ACL='private',
-                               Body=json.dumps({"batchId": batch_id, "index": index,
-                                                "records": [{"request": record} for record in records]}))
+                               Body=json.dumps(chunk))
 
 
 async def write_chunk_result(batch_id, index, chunk, s3_resource):

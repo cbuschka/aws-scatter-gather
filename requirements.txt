@@ -1,1 +1,2 @@
 aioboto3
+jsonschema

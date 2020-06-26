@@ -38,23 +38,18 @@ async def exists_pending_task(batch_id, s3_resource):
             return False
 
 
-async def write_pending_task(batch_id, index, request, batch_writer):
+async def write_pending_task(batch_id, index, pending_task, batch_writer):
     object_key = "{}/pending/{}.json".format(batch_id, index)
     async with trace("Write pending task {}/{} to s3", WORK_BUCKET, object_key):
         await batch_writer.put(Bucket=WORK_BUCKET, Key=object_key,
-                               ACL='private', Body=json.dumps({"batchId": batch_id,
-                                                               "index": index,
-                                                               "request": request}))
+                               ACL='private', Body=json.dumps(pending_task))
 
 
-async def write_task_result(batch_id, index, request, result, s3_resource):
+async def write_task_result(batch_id, index, processed_task, s3_resource):
     object_key = "{}/done/{}.json".format(batch_id, index)
     async with trace("Writing task result {}/{} to s3", WORK_BUCKET, object_key):
         s3_object = await s3_resource.Object(WORK_BUCKET, object_key)
-        await s3_object.put(ACL='private', Body=json.dumps({"batchId": batch_id,
-                                                            "index": index,
-                                                            "request": request,
-                                                            "response": result}))
+        await s3_object.put(ACL='private', Body=json.dumps(processed_task))
 
 
 async def delete_pending_task(batch_id, index, s3_resource):

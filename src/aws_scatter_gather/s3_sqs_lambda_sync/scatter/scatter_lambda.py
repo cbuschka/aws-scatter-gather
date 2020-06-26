@@ -2,6 +2,7 @@ import json
 from typing import Tuple, Optional
 from uuid import uuid4
 
+from aws_scatter_gather.common.validation import validate_input
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_started, record_scatter_finished
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import input_bucket, process_queue, work_bucket
 from aws_scatter_gather.util import logger
@@ -54,6 +55,7 @@ def handle_event(event, lambda_context):
     record_batch_started(batch_id)
     with trace("Scattering {}", batch_id):
         batch_doc = input_bucket.read_batch_input(s3_object[0], s3_object[1])
+        validate_input(batch_doc)
         records = batch_doc.get("records", [])
         work_bucket.write_batch_status(batch_id, len(records))
         __write_tasks_and_send_messages(batch_id, records)

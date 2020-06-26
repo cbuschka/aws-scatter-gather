@@ -1,6 +1,7 @@
 import asyncio
 import json
 
+from aws_scatter_gather.common.validation import validate_pending_task, validate_processed_task
 from aws_scatter_gather.s3_sqs_lambda_async.resources import work_bucket, gather_queue, items_table
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import logger
@@ -28,16 +29,20 @@ async def handle_event(event, lambda_context):
 
 async def __process(record, s3_resource, batch_writer):
     async with trace("Processing {}", json.dumps(record)):
+        validate_pending_task(record)
         index = record["index"]
         batch_id = record["batchId"]
         request = record["request"]
-        await items_table.put_item({"itemNo": str(index),
+        item_no = request["itemNo"]
+        await items_table.put_item({"itemNo": str(item_no),
                                     "updateTimestamp": now_epoch_millis()},
                                    batch_writer)
-        await work_bucket.write_task_result(batch_id, index, request, {"success": True,
-                                                                       "message": "Faked success for {}".format(
-                                                                           json.dumps(request.get("info", "noinfo")))},
-                                            s3_resource)
+        processed_task = {"batchId": batch_id,
+                          "index": index,
+                          "request": request,
+                          "response": {"success": True, "message": "Ok"}}
+        validate_processed_task(processed_task)
+        await work_bucket.write_task_result(batch_id, index, processed_task, s3_resource)
         await work_bucket.delete_pending_task(batch_id, index, s3_resource)
 
 

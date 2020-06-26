@@ -33,10 +33,10 @@ async def __process(message, s3_resource, batch_writer):
         chunk = await work_bucket.read_pending_chunk(batch_id, index, s3_resource)
         for record in chunk["records"]:
             request = record["request"]
+            item_no = request["itemNo"]
             record["response"] = {"success": True,
-                                  "message": "Faked success for {}".format(
-                                      json.dumps(request.get("info", "noinfo")))}
-        await items_table.put_item({"itemNo": str(index),
+                                  "message": "Ok"}
+        await items_table.put_item({"itemNo": str(item_no),
                                     "updateTimestamp": now_epoch_millis()},
                                    batch_writer)
         await work_bucket.write_chunk_result(batch_id, index, chunk, s3_resource)

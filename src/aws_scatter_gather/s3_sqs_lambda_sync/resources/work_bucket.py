@@ -59,7 +59,7 @@ def write_task_result(batch_id, index, request, result):
 
 def read_task_result(batch_id, index):
     object_key = "{}/done/{}.json".format(batch_id, index)
-    with trace("Rading task result {}/{} to s3", WORK_BUCKET, object_key):
+    with trace("Reading task result {}/{} to s3", WORK_BUCKET, object_key):
         s3_object = s3_resource.Object(WORK_BUCKET, object_key)
         data = s3_object.get()['Body'].read()
         json_doc = json.loads(data)

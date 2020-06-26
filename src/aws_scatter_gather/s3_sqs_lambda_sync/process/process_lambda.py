@@ -19,12 +19,11 @@ def handle_event(event, lambda_context):
             index = record["index"]
             batch_id = record["batchId"]
             request = record["request"]
-            items_table.put_item({"itemNo": str(index),
+            item_no = request["itemNo"]
+            items_table.put_item({"itemNo": str(item_no),
                                   "updateTimestamp": now_epoch_millis()},
                                  batch_writer)
-            work_bucket.write_task_result(batch_id, index, request, {"success": True,
-                                                                     "message": "Faked success for {}".format(
-                                                                         json.dumps(request.get("info", "noinfo")))})
+            work_bucket.write_task_result(batch_id, index, request, {"success": True, "message": "Ok"})
             work_bucket.delete_pending_task(batch_id, index)
             if not work_bucket.exists_pending_task(batch_id):
                 gather_queue.send_batch_complete_message(batch_id)
