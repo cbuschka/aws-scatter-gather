@@ -143,6 +143,9 @@ tail_cloudwatch:	init
 		/aws/lambda/${SCOPE}s3-sqs-lambda-async-scatter: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-async-process: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-async-gather: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-chunked-scatter: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-chunked-process: \
+		/aws/lambda/${SCOPE}s3-sqs-lambda-async-chunked-gather: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-scatter: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-process: \
 		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-gather:
