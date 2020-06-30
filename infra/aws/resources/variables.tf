@@ -7,5 +7,5 @@ variable "commitish" {
 }
 
 variable "env" {
-  default = "unknown"
+  default = "aws"
 }
