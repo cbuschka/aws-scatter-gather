@@ -50,9 +50,9 @@ The task has been implemented in various variants:
 * s3-sqs-lambda-async (with aioboto3 async io)
 * s3-sqs-lambda-async-chunked (with aioboto3 async io, records packed into chunks)
 * s3-sqs-lambda-dynamodb (with aioboto3 async io, records stored in dynamodb)
+* s3-notification-sqs-lambda (with aioboto3 async io, records stored in s3 in chunks, functions invoked by s3 notifications through sqs queues)
 
 * s3-sqs-sfn (to come)
-* s3-sqs-s3event (to come)
 * glue?
 * emr?
 * spark?
