@@ -57,6 +57,11 @@ The task has been implemented in various variants:
 * emr?
 * spark?
 
+### Results
+![Results](./doc/report.png)
+
+[(Data)](./measurements.csv)
+
 ### Repository structure
 * [infra](./infra) - Resources and service infrastructure
 * [src](./src) - Service sources
