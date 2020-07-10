@@ -1,0 +1,44 @@
+scatter-input:
+
+{
+    "Records": [
+        {
+            "messageId": "13eac9c4-70c9-4bbe-9536-af2eb64c29c7",
+            "receiptHandle": "AQEB/ngiM/F8/u1YBea6JlG5h6hKUlPDYr7U3g/GuwNt/u4cTSKBEQerb4VJIo2Qf6RTsC9zlVdN/dfHn1nczZns//vfiTCWGldSzUPzOVymxiFMoTnmwGLpNGoFmc92ykgG368WmxB3W+2u8x/AEDvQCs3MO8Bk05KDHT0QvLa5nMcqLeSiE2N4WuJJld0M/emZJXiw3CMtcT19eaVGI/YL+91CmuHRCNz+9x3wJnbqH5NBDJTCKvwfEi2serZw+iTzHqb3zgItOSwSvo3k/iwlfqoWOswRXMxz01DaaxR4A0CH2MSAdIi45IkFxsPHtpgt2RZIgs7dkhJxvRXNf55diFLdMRhWjdZbhiDv2tAow1c46cvXmtASA02mn+obaDnIsWbUsfO00rBr+zYBug1gRoH+ghfdwtJJyXTybyjnYdU/B7joEoJkCBbvUvXRBUCKDsI7itQsGHgkz9ha7Rl2ag==",
+            "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"eu-central-1\",\"eventTime\":\"2020-07-10T14:51:59.665Z\",\"eventName\":\"ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"AWS:AROAJKCUBAOMUDJWIYCNY:cbuschka\"},\"requestParameters\":{\"sourceIPAddress\":\"86.103.29.28\"},\"responseElements\":{\"x-amz-request-id\":\"CE62A3C8A7C8D2D0\",\"x-amz-id-2\":\"4p0zVMGPmr+NxCH94HmYUUZ7AFrmHYa0D91zC92mh+0/oTGZkEZm9t1fYPnGT03pSrJCAOo56cTb6HtVvBezbXHTmZWEXWBz\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"tf-s3-queue-20200710142135409400000001\",\"bucket\":{\"name\":\"nonlive-conni3-s3-notification-sqs-lambda-input\",\"ownerIdentity\":{\"principalId\":\"AZR2PU136LS11\"},\"arn\":\"arn:aws:s3:::nonlive-conni3-s3-notification-sqs-lambda-input\"},\"object\":{\"key\":\"ca638a87-d406-47c1-bc9e-7713121cdd47.json\",\"size\":398,\"eTag\":\"7a853d203ea1235f6d9cad45037c8b15\",\"versionId\":\"gPRkeNRoTYEhzKIRlstkPwILzfuXkORc\",\"sequencer\":\"005F088090CDDFDC5A\"}}}]}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1594392721664",
+                "SenderId": "AIDAIZRJAGH76OE2BC64E",
+                "ApproximateFirstReceiveTimestamp": "1594392721672"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "2632e9385ddb6e4750c532222350355a",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:eu-central-1:859282716471:nonlive-conni3-s3-notification-sqs-lambda-scatter-queue",
+            "awsRegion": "eu-central-1"
+        }
+    ]
+}
+
+process:
+{
+    "Records": [
+        {
+            "messageId": "28ac2102-11b2-4502-bee2-f3cde38d96c5",
+            "receiptHandle": "AQEBRRFGZYqXA9sJu3YjCLOkAmQDz2EOx7Klcd5gwr7xdvVkgXiTJri+U8rEb34D1hpTEDylqqhtv0absmc30z7Dr8unL3NTBotLUVgvLDrLTvc4SSciQRimuczV8ZmaMhxRIb8MbjmOgomrbq1+NUG57pBuTS0UJBdTwGEoFvg3OJ9BkIYlBl2Mugs7Z3kAsvaAoNaCX1xYHt5FCPqKLqcm0lkkA38Aj5/k8nqbaZvwPdVPRsNb6HvErnG0y2QLh6n5deiToaGNdwG7GIAe4qUO5RHvbK3gPIb78za5Cc1yMw/mkG96yIxn5K/XKmWsJZis7GXWJRYDwCyxn8qbE2+JJz9hbjJvGbm7+/7kHmuC3OzDYpcVaJu479WVXApG3f+ROETLv7ExFPiBioMKgbb9cxUsD5fgghaK/XRtl4M47auC0iW5EF/T6heUGNm9wd+JSni3fYh7MZ/TFaAyl5PHvg==",
+            "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"eu-central-1\",\"eventTime\":\"2020-07-10T14:40:11.080Z\",\"eventName\":\"ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"AWS:AROA4QEJ5W43SIZEHXAEZ:nonlive-conni3-s3-notification-sqs-lambda-scatter\"},\"requestParameters\":{\"sourceIPAddress\":\"3.121.215.108\"},\"responseElements\":{\"x-amz-request-id\":\"805755B51A73A4D1\",\"x-amz-id-2\":\"xRTWLUxLPAyYGFb18OWRen7a3uR7VPSX8B7y6ZWLdeqIs1hM542lbYaPkr0ykYFxaScP2J9GM2E9RSc0Wg16GP4oC/X3wWue\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"tf-s3-queue-20200710142136335700000007\",\"bucket\":{\"name\":\"nonlive-conni3-s3-notification-sqs-lambda-work\",\"ownerIdentity\":{\"principalId\":\"AZR2PU136LS11\"},\"arn\":\"arn:aws:s3:::nonlive-conni3-s3-notification-sqs-lambda-work\"},\"object\":{\"key\":\"6660ad0f-decd-4164-982a-32b8d1296e5f/pending/0.pending.json\",\"size\":737,\"eTag\":\"31df1465c3afef18e32348bba7df932a\",\"versionId\":\"OWPaYdMLu0S0cdqzq6Q1X2EuyA4OS.LK\",\"sequencer\":\"005F087DD00B6FEDF8\"}}}]}",
+            "attributes": {
+                "ApproximateReceiveCount": "4",
+                "SentTimestamp": "1594392016911",
+                "SenderId": "AIDAIZRJAGH76OE2BC64E",
+                "ApproximateFirstReceiveTimestamp": "1594392016911"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "e70cfcf3c45f5a607721eeacc3c25e88",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:eu-central-1:859282716471:nonlive-conni3-s3-notification-sqs-lambda-process-queue",
+            "awsRegion": "eu-central-1"
+        }
+    ]
+}
