@@ -55,29 +55,8 @@ class PendingTaskValidationTest(unittest.TestCase):
             validate_pending_task(doc)
 
     def test_happy_doc(self):
-        doc = {"batch_id": "abc", "index": 0, "request": {"itemNo": "1", "price": 30}}
-        validate_pending_task(doc)
-
-
-class PendingChunkOfTasksValidationTest(unittest.TestCase):
-    def test_missing_batch_id_invalid(self):
-        doc = {"index": 0}
-        with self.assertRaises(ValidationError):
-            validate_pending_chunk_of_tasks(doc)
-
-    def test_missing_index_invalid(self):
-        doc = {"batchId": "abcd"}
-        with self.assertRaises(ValidationError):
-            validate_pending_chunk_of_tasks(doc)
-
-    def test_empty_is_invalid(self):
-        doc = {}
-        with self.assertRaises(ValidationError):
-            validate_pending_chunk_of_tasks(doc)
-
-    def test_happy_doc(self):
         doc = {"batchId": "abc", "index": 0, "request": {"itemNo": "1", "price": 30}}
-        validate_pending_chunk_of_tasks(doc)
+        validate_pending_task(doc)
 
 
 class ProcessedTaskValidationTest(unittest.TestCase):
