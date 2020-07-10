@@ -25,7 +25,7 @@ TESTS = [
                 s3_notification_sqs_lambda]),
     Test(10001,
          [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb, s3_notification_sqs_lambda]),
-    Test(100001, [s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb, s3_notification_sqs_lambda]),
+    Test(100001, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
     Test(1000001, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
 ]
 
