@@ -36,6 +36,7 @@
 * https://jayendrapatil.com/aws-s3-best-practices/
 * https://www.trek10.com/blog/leveraging-ulids-to-create-order-in-unordered-datastores
 * https://docs.aws.amazon.com/AmazonS3/latest/dev/optimizing-performance.html
+* https://serverless.pub/s3-or-dynamodb/#:~:text=DynamoDB%20is%20designed%20for%20low,that%20as%20quickly%20as%20S3.
 
 ## packaging boto3
 * https://www.serverlessops.io/blog/aws-lambda-and-python-boto3-bundling
@@ -48,4 +49,5 @@
 * https://blog.gruntwork.io/terraform-tips-tricks-loops-if-statements-and-gotchas-f739bbae55f9
 * https://blog.gruntwork.io/5-lessons-learned-from-writing-over-300-000-lines-of-infrastructure-code-36ba7fadeac1
 
-
+## sqs with lambda
+* https://www.youtube.com/watch?v=SDAXRKwTQIk
