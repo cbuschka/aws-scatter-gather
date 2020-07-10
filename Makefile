@@ -26,7 +26,7 @@ usage:
 
 all:	clean start_localstack package deploy benchmark
 
-test:	build
+unit_tests:	build
 	@echo "Running unit tests..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
@@ -38,7 +38,9 @@ integration_tests:	build
 	source ${VENV_DIR}/bin/activate && \
 	PYTHONPATH=${SRC_DIR}:${TESTS_DIR} python -B -m pytest -p no:cacheprovider -c ${TOP_DIR}/.pytest.ini --ignore-glob '*_acceptance_test.py' --cov-config=${TOP_DIR}/.coveragerc --junit-xml=${TOP_DIR}/junit.xml --cov=${SRC_DIR} --cov-branch ${TESTS_DIR}
 
-coverage:	test integration_tests
+tests:	unit_tests integration_tests
+
+coverage:	tests
 	@echo "Generating coverage report..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
