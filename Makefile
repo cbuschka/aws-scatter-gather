@@ -32,7 +32,7 @@ unit_tests:	build
 	source ${VENV_DIR}/bin/activate && \
 	PYTHONPATH=${SRC_DIR}:${TESTS_DIR} python -B -m pytest -p no:cacheprovider -c ${TOP_DIR}/.pytest.ini --ignore-glob '*_acceptance_test.py' --ignore-glob '*_integration_test.py' --cov-config=${TOP_DIR}/.coveragerc --junit-xml=${TOP_DIR}/junit.xml --cov=${SRC_DIR} --cov-branch ${TESTS_DIR}
 
-integration_tests:	build
+integration_tests:	build start_localstack
 	@echo "Running integration tests..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
@@ -173,8 +173,7 @@ tail_cloudwatch:	init
 		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-gather:
 
 start_localstack:	__is_devel
-	@docker-compose rm -f
-	@docker-compose up -d --force-recreate && \
+	@docker-compose up -d && \
 	echo "Waiting for localstack to come up..." && \
 	done="" && \
 	while [ "$${done}" != "0" ]; do \
@@ -185,7 +184,8 @@ start_localstack:	__is_devel
 	echo " Localstack is up."
 
 stop_localstack:	__is_devel
-	@docker-compose down -v --remove-orphans
+	@docker-compose down -v --remove-orphans && \
+	docker-compose rm -f -s -v
 
 tail_localstack:	init
 	@docker-compose logs -f
