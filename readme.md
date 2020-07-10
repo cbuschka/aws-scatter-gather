@@ -60,7 +60,6 @@ The task has been implemented in various variants:
 ### Repository structure
 * [infra](./infra) - Resources and service infrastructure
 * [src](./src) - Service sources
-* [resources](./resources) - Service resources
 * [tests](./tests) - Service tests
 * [benchmark](./benchmark) - Benchmark sources
 
