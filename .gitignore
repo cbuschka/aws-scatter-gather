@@ -1,3 +1,6 @@
+/junit.xml
+/.coverage
+/coverage.xml
 .localstack-data/
 .terraform/
 terraform.tfstate

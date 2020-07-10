@@ -30,7 +30,27 @@ test:	build
 	@echo "Running unit tests..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
-	PYTHONPATH=${SRC_DIR}:${TESTS_DIR} python -m unittest discover -p '*test*.py' ${TESTS_DIR}
+	PYTHONPATH=${SRC_DIR}:${TESTS_DIR} python -B -m pytest -p no:cacheprovider -c ${TOP_DIR}/.pytest.ini --ignore-glob '*_acceptance_test.py' --ignore-glob '*_integration_test.py' --cov-config=${TOP_DIR}/.coveragerc --junit-xml=${TOP_DIR}/junit.xml --cov=${SRC_DIR} --cov-branch ${TESTS_DIR}
+
+integration_tests:	build
+	@echo "Running integration tests..." && \
+	cd ${TOP_DIR} && \
+	source ${VENV_DIR}/bin/activate && \
+	PYTHONPATH=${SRC_DIR}:${TESTS_DIR} python -B -m pytest -p no:cacheprovider -c ${TOP_DIR}/.pytest.ini --ignore-glob '*_acceptance_test.py' --cov-config=${TOP_DIR}/.coveragerc --junit-xml=${TOP_DIR}/junit.xml --cov=${SRC_DIR} --cov-branch ${TESTS_DIR}
+
+coverage:	test integration_tests
+	@echo "Generating coverage report..." && \
+	cd ${TOP_DIR} && \
+	source ${VENV_DIR}/bin/activate && \
+	python -B -m coverage xml --rcfile=${TOP_DIR}/.coveragerc --fail-under=50
+
+lint:	build
+	@echo "Linting..." && \
+	cd ${TOP_DIR} && \
+	source ${VENV_DIR}/bin/activate && \
+	PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=${SRC_DIR}:${TESTS_DIR} pylint --errors-only --verbose --exit-zero $(shell find ${SRC_DIR} -name '*.py') $(shell find ${TESTS_DIR} -name '*.py')
+
+quality_check:	coverage lint
 
 init:
 	@echo -e "ENV is ${ENV}\nSCOPE is ${SCOPE}\nCOMMITISH is ${COMMITISH}"
@@ -60,7 +80,7 @@ install_requirements:	init_venv
 
 build:	install_requirements
 
-package:	test
+package:	quality_check
 	@echo "Packaging..." && \
 	cd ${TOP_DIR} && \
 	rm -rf ${TARGET_DIR} && \
