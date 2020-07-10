@@ -8,6 +8,7 @@ from aws_scatter_gather.s3_sqs_lambda_dynamodb.resources import input_bucket, pr
     batch_tasks_table
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
+from aws_scatter_gather.util import sqs_event, s3_event
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.trace import trace
@@ -23,24 +24,9 @@ def __extract_batch_id(object_key: str):
     return object_key[0:-5]
 
 
-def __get_s3_object_key_from(event) -> Optional[Tuple]:
-    records = event["Records"]
-    if len(records) == 0:
-        return None
-    if len(records) > 1:
-        raise ValueError("Only single document processing supported.")
-    event = json.loads(records[0]["body"])
-    if event.get("Event", None) == "s3:TestEvent":
-        return None
-    records = event["Records"]
-    if len(records) > 1:
-        raise ValueError("Only single document processing supported.")
-    if len(records) == 0:
-        return None
-    s3_event = records[0]["s3"]
-    bucket_name = s3_event["bucket"]["name"]
-    object_key = s3_event["object"]["key"]
-    return (bucket_name, object_key)
+def __get_s3_object_from(event) -> Optional[Tuple]:
+    record = sqs_event.get_single_body(event)
+    return s3_event.get_single_s3_object(record)
 
 
 async def __write_chunks_and_send_messages(batch_id, records, dynamodb_resource, sqs_client):

@@ -1,4 +1,3 @@
-from aws_scatter_gather.util import json
 from typing import Tuple, Optional
 from uuid import uuid4
 
@@ -7,6 +6,8 @@ from aws_scatter_gather.common.validation import validate_input, validate_pendin
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_started, record_scatter_finished
 from aws_scatter_gather.s3_sqs_lambda_async.resources import input_bucket, process_queue, work_bucket
 from aws_scatter_gather.util import aioaws
+from aws_scatter_gather.util import json
+from aws_scatter_gather.util import sqs_event, s3_event
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.s3_batch_writer import S3BatchWriter
 from aws_scatter_gather.util.trace import trace
@@ -20,24 +21,9 @@ def __extract_batch_id(object_key: str):
     return object_key[0:-5]
 
 
-def __get_s3_object_key_from(event) -> Optional[Tuple]:
-    records = event["Records"]
-    if len(records) == 0:
-        return None
-    if len(records) > 1:
-        raise ValueError("Only single document processing supported.")
-    event = json.loads(records[0]["body"])
-    if event.get("Event", None) == "s3:TestEvent":
-        return None
-    records = event["Records"]
-    if len(records) > 1:
-        raise ValueError("Only single document processing supported.")
-    if len(records) == 0:
-        return None
-    s3_event = records[0]["s3"]
-    bucket_name = s3_event["bucket"]["name"]
-    object_key = s3_event["object"]["key"]
-    return (bucket_name, object_key)
+def __get_s3_object_from(event) -> Optional[Tuple]:
+    record = sqs_event.get_single_body(event)
+    return s3_event.get_single_s3_object(record)
 
 
 async def __write_tasks_and_send_messages(batch_id, records, s3_resource, sqs_client):
