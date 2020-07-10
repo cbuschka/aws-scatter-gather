@@ -143,18 +143,24 @@ benchmark:	install_requirements
 			;; \
 	esac
 
-report:	install_requirements
-	@echo "Running benchmark report..." && \
+download:	install_requirements
+	@echo "Downloading measurements..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
 	case ${ENV} in \
 		devel) \
-			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py; \
+			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/download.py; \
 			;; \
 		aws|*) \
 			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py; \
 			;; \
 	esac
+
+report:	install_requirements
+	@echo "Running benchmark report..." && \
+	cd ${TOP_DIR} && \
+	source ${VENV_DIR}/bin/activate && \
+	PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py
 
 tail_cloudwatch:	init
 	# https://github.com/lucagrulla/cw/releases/download/v3.3.0/cw_3.3.0_Linux_x86_64.tar.gz
