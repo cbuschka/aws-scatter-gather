@@ -82,7 +82,7 @@ install_requirements:	init_venv
 
 build:	install_requirements
 
-package:	quality_check
+package:	unit_tests
 	@echo "Packaging..." && \
 	cd ${TOP_DIR} && \
 	rm -rf ${TARGET_DIR} && \
@@ -173,7 +173,7 @@ tail_cloudwatch:	init
 		/aws/lambda/${SCOPE}s3-sqs-lambda-dynamodb-gather:
 
 start_localstack:	__is_devel
-	@docker-compose up -d && \
+	@docker-compose --compatibility up -d && \
 	echo "Waiting for localstack to come up..." && \
 	done="" && \
 	while [ "$${done}" != "0" ]; do \
@@ -184,11 +184,11 @@ start_localstack:	__is_devel
 	echo " Localstack is up."
 
 stop_localstack:	__is_devel
-	@docker-compose down -v --remove-orphans && \
-	docker-compose rm -f -s -v
+	@docker-compose --compatibility down -v --remove-orphans && \
+	docker-compose --compatibility rm -f -s -v
 
 tail_localstack:	init
-	@docker-compose logs -f
+	@docker-compose --compatibility logs -f
 
 clean:	init
 	@echo "Cleaning up..." && \

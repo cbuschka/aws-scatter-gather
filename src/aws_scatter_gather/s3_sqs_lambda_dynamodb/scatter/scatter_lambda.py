@@ -51,7 +51,7 @@ async def __write_chunks_and_send_messages(batch_id, records, dynamodb_resource,
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
 
-    s3_object = __get_s3_object_key_from(event)
+    s3_object = __get_s3_object_from(event)
     if s3_object is None:
         return
     batch_id = __extract_batch_id(s3_object[1])

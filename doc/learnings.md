@@ -33,3 +33,15 @@ Traceback (most recent call last):
   File "/var/task/aiobotocore/client.py", line 125, in _make_api_call
     raise error_class(parsed_response, operation_name)
 ```
+
+## aws naming limits
+```
+module.resources.module.s3-sqs-lambda-async-chunked.data.aws_dynamodb_table.items_table: Refreshing state...
+
+Error: expected length of name to be in the range (1 - 64), got conni-s3-notification-sqs-lambda-async-chunked-gather-lambda-role
+
+  on ../../modules/service/s3-sqs-lambda/gather-lambda.tf line 1, in resource "aws_iam_role" "gather_lambda_role":
+   1: resource "aws_iam_role" "gather_lambda_role" {
+
+
+```

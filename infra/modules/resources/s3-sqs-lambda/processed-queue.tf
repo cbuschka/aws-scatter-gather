@@ -1,20 +1,23 @@
-resource "aws_sqs_queue" "process_dlq" {
-  name = "${var.scope}${var.variant}-process-dlq"
+resource "aws_sqs_queue" "processed_dlq" {
+  name = "${var.scope}${var.variant}-processed-dlq"
   message_retention_seconds = 86400
+
   tags = {
     variant = "${var.scope}${var.variant}"
   }
 }
 
-resource "aws_sqs_queue" "process" {
-  name = "${var.scope}${var.variant}-process-queue"
+resource "aws_sqs_queue" "processed" {
+  count = var.with_s3_notification_to_queue ? 1 : 0
+
+  name = "${var.scope}${var.variant}-processed-queue"
   delay_seconds = 0
   max_message_size = 2048
   message_retention_seconds = 86400
+  visibility_timeout_seconds = 910
   receive_wait_time_seconds = 10
-  visibility_timeout_seconds = 70
   redrive_policy = jsonencode({
-    deadLetterTargetArn = aws_sqs_queue.process_dlq.arn
+    deadLetterTargetArn = aws_sqs_queue.processed_dlq.arn
     maxReceiveCount = 4
   })
 

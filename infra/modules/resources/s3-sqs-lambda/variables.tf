@@ -27,3 +27,8 @@ variable "with_batch_tables" {
   default = false
   type = bool
 }
+
+variable "with_s3_notification_to_queue" {
+  default = false
+  type = bool
+}

@@ -2,7 +2,7 @@ import json
 
 
 def get_bodies(event):
-    return [json.loads(e["Body"]) for e in event.get("Records", [])]
+    return [json.loads(e["body"]) for e in event.get("Records", [])]
 
 
 def get_single_body(event):

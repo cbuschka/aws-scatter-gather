@@ -5,6 +5,7 @@ from uuid import uuid4
 
 import sys
 
+from aws_scatter_gather.benchmark import s3_notification_sqs_lambda
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
 from aws_scatter_gather.benchmark import s3_sqs_lambda_dynamodb
@@ -21,7 +22,7 @@ TESTS = [
     Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
     Test(10001, [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
     Test(100001, [s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb]),
-    Test(1000001, [s3_sqs_lambda_async_chunked]),
+    Test(1000001, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
 ]
 
 

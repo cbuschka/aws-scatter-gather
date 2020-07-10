@@ -13,14 +13,14 @@ class SqsEventTest(unittest.TestCase):
         self.assertEqual([], sqs_event.get_bodies(event))
 
     def test_single_body_of_single_record_event(self):
-        event = {"Records": [{"Body": "\"rec0\""}]}
+        event = {"Records": [{"body": "\"rec0\""}]}
         self.assertEqual("rec0", sqs_event.get_single_body(event))
 
     def test_bodies_of_multi_records_event(self):
-        event = {"Records": [{"Body": "\"rec0\""}, {"Body": "\"rec1\""}]}
+        event = {"Records": [{"body": "\"rec0\""}, {"body": "\"rec1\""}]}
         self.assertEqual(["rec0", "rec1"], sqs_event.get_bodies(event))
 
     def test_single_body_of_multi_records_event(self):
-        event = {"Records": [{"Body": "\"rec0\""}, {"Body": "\"rec1\""}]}
+        event = {"Records": [{"body": "\"rec0\""}, {"body": "\"rec1\""}]}
         with self.assertRaises(ValueError):
             sqs_event.get_single_body(event)

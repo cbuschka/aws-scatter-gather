@@ -12,9 +12,9 @@ data "aws_s3_bucket" "work" {
 data "aws_sqs_queue" "gather" {
   name = "${var.scope}${var.variant}-gather-queue.fifo"
 }
-data "aws_sqs_queue" "process_dlq" {
-  name = "${var.scope}${var.variant}-process-dlq"
-}
+#data "aws_sqs_queue" "process_dlq" {
+#  name = "${var.scope}${var.variant}-process-dlq"
+#}
 data "aws_sqs_queue" "process" {
   name = "${var.scope}${var.variant}-process-queue"
 }
@@ -34,4 +34,13 @@ data "aws_dynamodb_table" "batch_tasks" {
 
   name = "${var.scope}${var.variant}-batch-tasks"
 }
+data "aws_sqs_queue" "processed" {
+  count = var.with_s3_notification_to_queue ? 1 : 0
 
+  name = "${var.scope}${var.variant}-processed-queue"
+}
+#data "aws_sqs_queue" "processed_dlq" {
+#  count = var.with_s3_notification_to_queue ? 1 : 0
+#
+#  name = "${var.scope}${var.variant}-processed-dlq"
+#}
