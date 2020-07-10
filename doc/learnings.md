@@ -11,6 +11,10 @@ because of the sequence token gets invalidated when logging concurrently
 into the same stream
 * sync. io is very slow
 
+## s3
+* multiple s3 notifications on s3 bucket must be created within single resource block. otherwise the second notification overwrites the first one silently
+* s3 sends test events after notifications have been established: thou shalt not fail
+
 ## dynamodb
 * dynamodb on demand scaling
 ```
