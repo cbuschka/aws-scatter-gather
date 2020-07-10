@@ -1,5 +1,8 @@
 # Learnings
 
+## localstack
+* tf remote state is tricky
+
 ## s3 sqs lambda
 * check lambda defaults for timeout and memory
 * check sqs defaults for visibility, batch size, delay
