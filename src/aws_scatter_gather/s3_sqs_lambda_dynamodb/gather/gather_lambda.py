@@ -8,7 +8,7 @@ from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util.async_util import async_to_sync
-from aws_scatter_gather.util.bytes_buffer_io import BytesBufferIO
+from bytesbufio import BytesBufferIO
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.jsonstream import JsonStream
 from aws_scatter_gather.util.trace import trace
