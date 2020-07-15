@@ -3,6 +3,8 @@
 ## The challenge
 Implement batch processing on AWS:
 
+![scatter-gather-general](./doc/scatter-gather-general.svg)
+
 * Receive a single file of records to be processed via s3 upload
 * Process records and update items in data store as parallel as possible
 * Detect when all records have been processed
