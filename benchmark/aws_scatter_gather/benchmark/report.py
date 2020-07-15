@@ -10,7 +10,7 @@ def sum(base_val, new_val):
         base_val = 0
     if new_val is None:
         new_val = 0
-    return int(base_val) + int(new_val)
+    return float(base_val) + float(new_val)
 
 
 def merge_counts(base_val, curr_val):
@@ -27,10 +27,10 @@ def avg(base_val, new_val):
     if (base_val is None or base_val == '') and (new_val is None or new_val == ''):
         return None
     if (base_val is None or base_val == '') and (new_val is not None and new_val != ''):
-        return int(float(new_val))
+        return float(new_val)
     if new_val is None or new_val == '':
-        return base_val
-    return round((int(float(base_val)) + int(float(new_val))) / 2)
+        return float(base_val)
+    return round((float(base_val) + float(new_val)) / float(2))
 
 
 def same(base_val, new_val):
@@ -64,7 +64,6 @@ class DataTable:
             base_row = result.get(group_key, None) or {}
             new_row = {col: func(base_row.get(col, None), curr_row.get(col, None)) for col, func
                        in group_funcs.items()}
-            # print(f"  {base_row}\n +{curr_row}\n=>{new_row}\n")
             result[group_key] = new_row
         return result
 
