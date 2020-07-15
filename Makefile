@@ -152,7 +152,7 @@ download:	install_requirements
 			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/download.py; \
 			;; \
 		aws|*) \
-			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/report.py; \
+			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/download.py; \
 			;; \
 	esac
 
