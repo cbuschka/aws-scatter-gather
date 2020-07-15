@@ -136,10 +136,10 @@ benchmark:	install_requirements
 	source ${VENV_DIR}/bin/activate && \
 	case ${ENV} in \
 		devel) \
-			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py; \
+			LOCALSTACK_HOSTNAME=localhost SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py ${BENCHMARK_START} ${BENCHMARK_END}; \
 			;; \
 		aws|*) \
-			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py; \
+			SCOPE=${SCOPE} PYTHONPATH=${SRC_DIR}:${TESTS_DIR}:${BENCHMARK_DIR} python3 ${BENCHMARK_DIR}/aws_scatter_gather/benchmark/benchmark.py ${BENCHMARK_START} ${BENCHMARK_END}; \
 			;; \
 	esac
 

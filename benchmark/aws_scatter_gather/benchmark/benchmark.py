@@ -10,35 +10,34 @@ from aws_scatter_gather.benchmark import s3_sqs_lambda_async
 from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
 from aws_scatter_gather.benchmark import s3_sqs_lambda_dynamodb
 from aws_scatter_gather.benchmark import s3_sqs_lambda_sync
-from aws_scatter_gather.util.trace import trace
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-Test = namedtuple("Test", ["count", "variants"])
-TESTS = [
-    Test(11, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb,
-              s3_notification_sqs_lambda]),
-    Test(101, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb,
-               s3_notification_sqs_lambda]),
-    Test(1001, [s3_sqs_lambda_sync, s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb,
-                s3_notification_sqs_lambda]),
-    Test(10001,
-         [s3_sqs_lambda_async, s3_sqs_lambda_async_chunked, s3_sqs_lambda_dynamodb, s3_notification_sqs_lambda]),
-    Test(100001, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
-    Test(1000001, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
+VariantTest = namedtuple("VariantTest", ["maxcount", "variant"])
+
+VARIANT_TESTS = [
+    VariantTest(10_000, s3_sqs_lambda_sync),
+    VariantTest(100_000, s3_sqs_lambda_async),
+    VariantTest(100_000, s3_sqs_lambda_dynamodb),
+    VariantTest(10_000_000, s3_sqs_lambda_async_chunked),
+    VariantTest(10_000_000, s3_notification_sqs_lambda),
 ]
 
 
-def run():
-    for test in TESTS:
-        logger.info("Benchmarking with {count} records.".format(count=test.count))
-        batch = {"records": [{"itemNo": "item#{}".format(i), "price": randint(0, 100)} for i in range(test.count)]}
-
-        for variant in test.variants:
-            with trace("Variant {}...", variant.name()):
+def run(start=10, end=1000):
+    count = start
+    while count < end:
+        for variant_test in VARIANT_TESTS:
+            if variant_test.maxcount > count:
+                logger.info(
+                    "Benchmarking {variant} with {count} records.".format(variant=variant_test.variant.__name__,
+                                                                          count=count + 1))
+                batch = {
+                    "records": [{"itemNo": "item#{}".format(i), "price": randint(0, 100)} for i in range(count + 1)]}
                 batch_id = str(uuid4())
-                variant.run(batch_id, batch)
+                variant_test.variant.run(batch_id, batch)
+        count = count * 2
 
 
 if __name__ == "__main__":
@@ -48,4 +47,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     logging.basicConfig(level=logging.INFO)
-    run()
+    run(int(sys.argv[1] if len(sys.argv) > 1 else 1), int(sys.argv[2] if len(sys.argv) > 2 else 100))
