@@ -5,10 +5,9 @@ Implement batch processing on AWS:
 
 ![scatter-gather-general](./doc/scatter-gather-general.svg)
 
-* Receive a single file of records to be processed via s3 upload
-* Process records and update items in data store as parallel as possible
-* Detect when all records have been processed
-* Aggregate a result summary file in s3
+* scatter: Split up a single file of records to be processed (the file has been uploaded via s3)
+* process: Process records as parallel as possible
+* gather: Detect completion of processing and aggregate a result summary report in s3
 
 ## Prerequisites
 * python 3.8
