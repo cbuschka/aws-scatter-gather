@@ -31,7 +31,7 @@ def __collect_measurements():
             end_time = jsontime.parse(batch["batchEndTime"])
             duration_in_secs = (end_time - start_time).total_seconds()
             batch["batchDurationInSeconds"] = str(duration_in_secs)
-            batch["batchDurationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
+            batch["batchDurationPerRecordInSeconds"] = str(float(duration_in_secs) / float(batch["count"]))
             batch["outcome"] = "success"
         else:
             batch["outcome"] = "failure"
@@ -41,14 +41,14 @@ def __collect_measurements():
             scatter_end_time = jsontime.parse(batch["scatterEndTime"])
             scatter_duration_in_secs = (scatter_end_time - start_time).total_seconds()
             batch["scatterDurationInSeconds"] = str(scatter_duration_in_secs)
-            batch["scatterDurationPerRecordInSeconds"] = str(round(scatter_duration_in_secs / int(batch["count"]), 4))
+            batch["scatterDurationPerRecordInSeconds"] = str(float(scatter_duration_in_secs) / float(batch["count"]))
 
         if "batchEndTime" in batch and "gatherStartTime" in batch and "count" in batch:
             start_time = jsontime.parse(batch["gatherStartTime"])
             end_time = jsontime.parse(batch["batchEndTime"])
             duration_in_secs = (end_time - start_time).total_seconds()
             batch["gatherDurationInSeconds"] = str(duration_in_secs)
-            batch["gatherDurationPerRecordInSeconds"] = str(round(duration_in_secs / int(batch["count"]), 4))
+            batch["gatherDurationPerRecordInSeconds"] = str(float(duration_in_secs) / float(batch["count"]))
 
         batches[batch_id] = batch
 
