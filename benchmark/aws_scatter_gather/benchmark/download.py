@@ -1,4 +1,5 @@
 import csv
+import os
 
 import sys
 
@@ -56,17 +57,21 @@ def __collect_measurements():
 
 def download():
     batches = __collect_measurements()
-    csvout = csv.writer(sys.stdout, delimiter=',',
-                        quotechar='"', quoting=csv.QUOTE_ALL)
-    keys = ["commitish", "variant", "env", "scope", "batchId",
-            "count",
-            "scatterDurationInSeconds", "scatterDurationPerRecordInSeconds",
-            "gatherDurationInSeconds", "gatherDurationPerRecordInSeconds",
-            "batchStartTime", "batchEndTime", "batchDurationInSeconds", "batchDurationPerRecordInSeconds",
-            "outcome"]
-    csvout.writerow(keys)
-    for key, batch in batches.items():
-        csvout.writerow([batch.get(key, "") for key in keys])
+    filename = "measurements.csv"
+    isnew = not os.path.isfile(filename)
+    with open(filename, 'a') as fileout:
+        csvout = csv.writer(fileout, delimiter=',',
+                            quotechar='"', quoting=csv.QUOTE_ALL)
+        keys = ["commitish", "variant", "env", "scope", "batchId",
+                "count",
+                "scatterDurationInSeconds", "scatterDurationPerRecordInSeconds",
+                "gatherDurationInSeconds", "gatherDurationPerRecordInSeconds",
+                "batchStartTime", "batchEndTime", "batchDurationInSeconds", "batchDurationPerRecordInSeconds",
+                "outcome"]
+        if isnew:
+            csvout.writerow(keys)
+        for key, batch in batches.items():
+            csvout.writerow([batch.get(key, "") for key in keys])
 
 
 if __name__ == "__main__":
