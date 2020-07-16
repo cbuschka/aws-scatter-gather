@@ -54,10 +54,13 @@ The task has been implemented in various variants:
 ![s3-sqs-lambda-dynamodb](./doc/s3-sqs-lambda-dynamodb-overview.svg)
 * s3-notification-sqs-lambda (with aioboto3 async io, records stored in s3 in chunks, functions invoked by s3 notifications through sqs queues)
 
-* s3-sqs-sfn (to come)
+### More/ alternative variants
+* sfn?
 * glue?
-* emr?
-* spark?
+* emr (spark)?
+* s3 athena?
+* s3 batch
+* single fat vm
 
 ### Results
 ![Results](./doc/report.png)
