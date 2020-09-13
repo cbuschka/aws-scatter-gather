@@ -13,6 +13,7 @@ endif
 SCOPE := ${USERNAME}-
 COMMITISH := $(shell git describe --no-match --always --dirty)
 BUILD_TIMESTAMP := $(shell date --iso-8601=seconds)
+PIP_FLAGS := "--use-feature=2020-resolver"
 
 usage:
 	@echo && \
@@ -78,7 +79,7 @@ install_requirements:	init_venv
 	@echo "Checking requirements..." && \
 	cd ${TOP_DIR} && \
 	source ${VENV_DIR}/bin/activate && \
-	pip install -r requirements.txt -r requirements-dev.txt
+	pip install ${PIP_FLAGS} -r requirements.txt -r requirements-dev.txt
 
 build:	install_requirements
 
@@ -88,7 +89,7 @@ package:	unit_tests
 	rm -rf ${TARGET_DIR} && \
 	mkdir -p ${TARGET_DIR}/lambda && \
 	source ${VENV_DIR}/bin/activate && \
-	pip install -r requirements.txt --target=${TARGET_DIR}/lambda/ && \
+	pip install ${PIP_FLAGS} --upgrade -r requirements.txt --target=${TARGET_DIR}/lambda/ && \
 	cd ${SRC_DIR} && \
 	tar c --exclude='__pycache__' * | tar xv -C ${TARGET_DIR}/lambda/ && \
 	cd ${TARGET_DIR}/lambda && \
