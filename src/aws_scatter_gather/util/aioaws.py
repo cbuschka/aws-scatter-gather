@@ -1,4 +1,7 @@
 import aioboto3
+from aws_xray_sdk.core import patch_all
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core.async_context import AsyncContext
 
 from aws_scatter_gather.util import env
 
@@ -34,3 +37,13 @@ def resource(*args, **kwargs):
 
 def client(*args, **kwargs):
     return _factory.client(*args, **kwargs)
+
+
+def enable_xray():
+    xray_recorder.configure(
+        sampling=False,
+        context_missing='LOG_ERROR',
+        daemon_address='127.0.0.1:3000',
+        context=AsyncContext()
+    )
+    patch_all()

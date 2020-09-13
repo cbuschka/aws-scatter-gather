@@ -1,14 +1,15 @@
-from aws_scatter_gather.util import json
-
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import items_table
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import work_bucket, gather_queue
+from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util.jsontime import now_epoch_millis
 from aws_scatter_gather.util.trace import trace
+from aws_scatter_gather.util.xray import xray_profile
 
 logger.configure(name=__name__)
 
 
+@xray_profile
 def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
     records = event["Records"]

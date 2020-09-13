@@ -1,10 +1,10 @@
-from aws_scatter_gather.util import json
-
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished, record_gather_started
 from aws_scatter_gather.s3_sqs_lambda_sync.resources import work_bucket, output_bucket
+from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util.jsontime import now
 from aws_scatter_gather.util.trace import trace
+from aws_scatter_gather.util.xray import xray_profile
 
 logger.configure(name=__name__)
 
@@ -16,6 +16,7 @@ def __read_task_results(batch_id, count):
     return results
 
 
+@xray_profile
 def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
     records = event["Records"]

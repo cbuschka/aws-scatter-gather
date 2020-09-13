@@ -8,6 +8,7 @@ from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util import sqs_event, s3_event
 from aws_scatter_gather.util.trace import trace
+from aws_scatter_gather.util.xray import xray_profile
 
 logger.configure(name=__name__)
 
@@ -32,6 +33,7 @@ def __write_tasks_and_send_messages(batch_id, records):
                     {"batchId": batch_id, "index": index, "request": record})})
 
 
+@xray_profile
 def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
     s3_object = __get_s3_object_from(event)

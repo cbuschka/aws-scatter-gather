@@ -1,12 +1,15 @@
 import asyncio
-from aws_scatter_gather.util import json
 
 from aws_scatter_gather.s3_sqs_lambda_async_chunked.resources import work_bucket, gather_queue, items_table
 from aws_scatter_gather.util import aioaws
+from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
+from aws_scatter_gather.util.aioaws import enable_xray
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.jsontime import now_epoch_millis
 from aws_scatter_gather.util.trace import trace
+
+enable_xray()
 
 logger.configure(name=__name__)
 

@@ -1,16 +1,17 @@
 import asyncio
 import gzip
 import io
-from aws_scatter_gather.util import json
-
 from math import ceil
+
+from bytesbufio import BytesBufferIO
 
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished, record_gather_started
 from aws_scatter_gather.s3_notification_sqs_lambda.resources import work_bucket, output_bucket
 from aws_scatter_gather.util import aioaws
+from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
+from aws_scatter_gather.util.aioxray import xray_profile
 from aws_scatter_gather.util.async_util import async_to_sync
-from bytesbufio import BytesBufferIO
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.jsonstream import JsonStream
 from aws_scatter_gather.util.trace import trace
@@ -19,6 +20,7 @@ logger.configure(name=__name__)
 
 
 @async_to_sync
+@xray_profile
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
 

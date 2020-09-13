@@ -1,14 +1,17 @@
 import asyncio
-from aws_scatter_gather.util import json
 
 from aws_scatter_gather.common.validation import validate_processed_task
 from aws_scatter_gather.measurement.measurement_recorder import record_batch_finished, record_gather_started
 from aws_scatter_gather.s3_sqs_lambda_async.resources import work_bucket, output_bucket
 from aws_scatter_gather.util import aioaws
+from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
+from aws_scatter_gather.util.aioaws import enable_xray
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.jsontime import now
 from aws_scatter_gather.util.trace import trace
+
+enable_xray()
 
 logger.configure(name=__name__)
 

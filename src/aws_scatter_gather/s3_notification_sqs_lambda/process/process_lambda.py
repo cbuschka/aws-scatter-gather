@@ -5,9 +5,11 @@ from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util import sqs_event, s3_event
+from aws_scatter_gather.util.aioaws import enable_xray
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.jsontime import now_epoch_millis
 from aws_scatter_gather.util.trace import trace
+from aws_scatter_gather.util.aioxray import xray_profile
 
 logger.configure(name=__name__)
 
@@ -19,8 +21,11 @@ def __get_s3_objects_from(event) -> list:
 
 
 @async_to_sync
+@xray_profile
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
+
+    enable_xray()
 
     s3_objects = __get_s3_objects_from(event)
 
