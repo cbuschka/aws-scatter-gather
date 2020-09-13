@@ -8,6 +8,11 @@ resource "aws_iam_role_policy_attachment" "scatter_lambda_policy_attachment" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "scatter_lambda_policy_attachment_xray" {
+  role = aws_iam_role.scatter_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+}
+
 variable "scatter_lambda_source" {
   default = "../../../target/lambda.zip"
 }
@@ -21,6 +26,9 @@ resource "aws_lambda_function" "scatter_lambda" {
   runtime = "python3.8"
   memory_size = 3008
   timeout = 900
+  tracing_config {
+    mode = "Active"
+  }
   environment {
     variables = {
       SCOPE = var.scope
