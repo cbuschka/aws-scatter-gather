@@ -12,6 +12,13 @@ resource "aws_iam_role_policy_attachment" "processed_lambda_policy_attachment" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "processed_lambda_policy_attachment_xray" {
+  count = var.with_s3_notification_to_queue ? 1 : 0
+
+  role = aws_iam_role.processed_lambda_role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+}
+
 variable "processed_lambda_source" {
   default = "../../../target/lambda.zip"
 }
@@ -27,6 +34,9 @@ resource "aws_lambda_function" "processed_lambda" {
   runtime = "python3.8"
   memory_size = 512
   timeout = 60
+  tracing_config {
+    mode = "Active"
+  }
   environment {
     variables = {
       SCOPE = var.scope

@@ -1,3 +1,5 @@
-bytesbufio
-aioboto3
-jsonschema
+bytesbufio == 1.0.3
+aioboto3 == 8.0.5
+boto3 == 1.12.32
+jsonschema == 3.2.0
+aws-xray-sdk == 2.6.0
