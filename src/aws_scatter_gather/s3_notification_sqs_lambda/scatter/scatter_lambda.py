@@ -8,6 +8,7 @@ from aws_scatter_gather.s3_notification_sqs_lambda.resources import input_bucket
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import sqs_event, s3_event
+from aws_scatter_gather.util.aioxray import xray_profile
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.s3_batch_writer import S3BatchWriter
@@ -43,6 +44,7 @@ async def __write_chunks(batch_id, records, s3_resource, sqs_client):
 
 
 @async_to_sync
+@xray_profile
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
 
