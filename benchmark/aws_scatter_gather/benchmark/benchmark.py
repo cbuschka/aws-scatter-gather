@@ -6,10 +6,6 @@ from uuid import uuid4
 import sys
 
 from aws_scatter_gather.benchmark import s3_notification_sqs_lambda
-from aws_scatter_gather.benchmark import s3_sqs_lambda_async
-from aws_scatter_gather.benchmark import s3_sqs_lambda_async_chunked
-from aws_scatter_gather.benchmark import s3_sqs_lambda_dynamodb
-from aws_scatter_gather.benchmark import s3_sqs_lambda_sync
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -17,9 +13,7 @@ logger.setLevel(logging.INFO)
 VariantTest = namedtuple("VariantTest", ["maxcount", "variants"])
 
 VARIANT_TESTS = [
-    VariantTest(10_000, [s3_sqs_lambda_sync]),
-    VariantTest(100_000, [s3_sqs_lambda_async, s3_sqs_lambda_dynamodb]),
-    VariantTest(10_000_000, [s3_sqs_lambda_async_chunked, s3_notification_sqs_lambda]),
+    VariantTest(10_000, [s3_notification_sqs_lambda]),
 ]
 
 
