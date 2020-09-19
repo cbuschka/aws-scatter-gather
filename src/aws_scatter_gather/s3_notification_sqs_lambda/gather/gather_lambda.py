@@ -10,20 +10,36 @@ from aws_scatter_gather.s3_notification_sqs_lambda.resources import work_bucket,
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
-from aws_scatter_gather.util.aioxray import xray_profile
-from aws_scatter_gather.util.async_util import async_to_sync
+from aws_xray_sdk.core import xray_recorder, patch_all
+from aws_xray_sdk.core.async_context import AsyncContext
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.jsonstream import JsonStream
 from aws_scatter_gather.util.trace import trace
 
 logger.configure(name=__name__)
 
+xray_recorder.configure(
+    sampling=False,
+    context_missing='LOG_ERROR',
+    daemon_address='127.0.0.1:3000',
+    context=AsyncContext()
+)
+patch_all()
 
-@async_to_sync
-@xray_profile
-async def handle_event(event, lambda_context):
+def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
+    loop = asyncio.get_event_loop()
+    result = loop.run_until_complete(handle_event_async_with_xray(event, lambda_context))
+    return result
 
+
+async def handle_event_async_with_xray(event, lambda_context):
+    async with xray_recorder.capture_async(name="handle_event_async_with_xray"):
+        async with xray_recorder.in_segment_async(name="handle_event_async_with_xray_segment"):
+            return await handle_event_async(event, lambda_context)
+
+
+async def handle_event_async(event, lambda_context):
     async with aioaws.resource("s3") as s3_resource, aioaws.client("s3") as s3_client:
         records = [json.loads(record["body"]) for record in event["Records"]]
         await asyncio.gather(*[__gather(record, s3_resource, s3_client) for record in records])
