@@ -8,13 +8,10 @@ from aws_scatter_gather.s3_sqs_lambda_async_chunked.resources import input_bucke
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import sqs_event, s3_event
-from aws_scatter_gather.util.aioaws import enable_xray
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.enumchunks import enumchunks
 from aws_scatter_gather.util.s3_batch_writer import S3BatchWriter
 from aws_scatter_gather.util.trace import trace
-
-enable_xray()
 
 logger.configure(name=__name__)
 

@@ -8,7 +8,6 @@ from aws_scatter_gather.s3_notification_sqs_lambda.resources import input_bucket
 from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import sqs_event, s3_event
-from aws_scatter_gather.util.aioaws import enable_xray
 from aws_scatter_gather.util.aioxray import xray_profile
 from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.enumchunks import enumchunks

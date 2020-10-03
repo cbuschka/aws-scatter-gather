@@ -5,9 +5,8 @@ from aws_scatter_gather.util import aioaws
 from aws_scatter_gather.util import json
 from aws_scatter_gather.util import logger
 from aws_scatter_gather.util import sqs_event, s3_event
-from aws_scatter_gather.util.aioaws import enable_xray
-from aws_scatter_gather.util.async_util import async_to_sync
 from aws_scatter_gather.util.aioxray import xray_profile
+from aws_scatter_gather.util.async_util import async_to_sync
 
 logger.configure(name=__name__)
 
@@ -31,8 +30,6 @@ async def __check_if_complete(batch_id, s3_resource, sqs_client):
 @xray_profile
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
-
-    enable_xray()
 
     s3_objects = __get_s3_objects_from(event)
     batch_ids = set([__extract_batch_id(key[1]) for key in s3_objects])
