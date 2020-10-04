@@ -3,6 +3,7 @@ import logging
 import sys
 
 from aws_xray_sdk.core.context import Context
+from aws_xray_sdk.core.recorder import Subsegment
 
 log = logging.getLogger(__name__)
 
@@ -109,14 +110,54 @@ class TaskFactory(object):
         self.orig_task_factory = orig_task_factory
 
     def __call__(self, loop, coro, *args, **kwargs):
-        if self.orig_task_factory:
-            task = self.orig_task_factory(loop, coro, *args, **kwargs)
-        else:
-            task = asyncio.tasks.Task(coro, *args, loop=loop, **kwargs)
+        traced_func = XRayTracedFunc(coro, self.context, loop=loop)
 
-        parent_task = _get_current_task(loop=loop)
-        if parent_task is not None and hasattr(parent_task, 'context'):
-            new_context = {"entities": [self.context.get_trace_entity()]}
+        if self.orig_task_factory:
+            task = self.orig_task_factory(loop, traced_func, *args, **kwargs)
+        else:
+            task = asyncio.tasks.Task(traced_func, *args, loop=loop, **kwargs)
+
+        trace_entity = self.context.get_trace_entity()
+        if trace_entity:
+            new_context = {"entities": [trace_entity]}
             setattr(task, 'context', new_context)
 
         return task
+
+
+class XRayTracedFunc(object):
+    def __init__(self, coro, context, loop):
+        self.coro = coro
+        self.context = context
+        self.loop = loop
+
+    async def __call__(self, *args, **kwargs):
+        subsegment = self._open_subsegment()
+        try:
+            result = await self.coro
+            return result
+        finally:
+            if subsegment is not None:
+                self._close_subsegment()
+
+    def _open_subsegment(self):
+        segment = self._get_segment()
+        if not segment:
+            return None
+
+        subsegment = Subsegment(self.coro.__name__, "local", segment)
+        self.context.put_subsegment(subsegment)
+        return subsegment
+
+    def _close_subsegment(self):
+        self.context.end_subsegment()
+
+    def _get_segment(self):
+        trace_entity = self.context.get_trace_entity()
+        if not trace_entity:
+            return None
+
+        if self.context._is_subsegment(trace_entity):
+            return trace_entity.parent_segment
+
+        return trace_entity

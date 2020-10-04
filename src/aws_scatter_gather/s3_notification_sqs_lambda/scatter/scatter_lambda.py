@@ -48,8 +48,6 @@ async def __write_chunks(batch_id, records, s3_resource, sqs_client):
 async def handle_event(event, lambda_context):
     logger.info("Event: {}".format(json.dumps(event, indent=2)))
 
-    enable_xray()
-
     s3_object = __get_s3_object_from(event)
     if s3_object is None:
         logger.info("Is s3 test event. Skipping.")
